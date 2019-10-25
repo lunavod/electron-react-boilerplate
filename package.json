@@ -8,7 +8,9 @@
     "electron": "electron .",
     "build": "webpack",
     "wds": "webpack-dev-server --hot",
-    "lint": "eslint . --ext js --ext jsx",
+	"lintjs": "eslint . --ext js --ext jsx",
+	"lintcss": "stylelint .",
+	"lint": "npm-run-all --parallel lintjs lintcss",
     "precommit": "npm run lint",
     "prepush": "npm run lint"
   },
