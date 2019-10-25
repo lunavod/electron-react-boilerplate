@@ -1,0 +1,42 @@
+.app {
+	background: linear-gradient(90deg, rgb(149, 175, 192, .2) 0,rgb(149, 175, 192, .6) 60%, rgb(149, 175, 192, .8) 100%);
+	transition: width .2s;
+	margin-bottom: 8px;
+	min-width: 250px;
+	padding: 4px 6px;
+	display: flex;
+	flex-direction: column;
+}
+
+.app:nth-child(1) {
+	background: linear-gradient(90deg, rgb(249, 202, 36, .3) 0,rgb(249, 202, 36, .6) 60%, rgb(249, 202, 36) 100%);
+	min-width: 280px;
+}
+
+.app:nth-child(2) {
+	background: linear-gradient(90deg, rgb(186, 220, 88, .3) 0,rgb(186, 220, 88, .6) 60%, rgb(186, 220, 88) 100%);
+	min-width: 270px;
+}
+
+.app:nth-child(3) {
+	background: linear-gradient(90deg, rgb(126, 214, 223, .3) 0,rgb(126, 214, 223, .6) 60%, rgb(126, 214, 223) 100%);
+	min-width: 260px;
+}
+
+.main {
+	padding: 0 16px;
+}
+
+.apps_list {
+	/* padding: 16px; */
+}
+
+.app_title {
+
+}
+
+.app_info {
+	font-size: .9em;
+	font-style: italic;
+	color: rgba(0,0,0,.7);
+}

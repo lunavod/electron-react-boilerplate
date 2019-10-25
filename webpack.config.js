@@ -64,7 +64,7 @@ module.exports = {
 			loader: 'babel-loader',
 
 			options: {
-				plugins: ['syntax-dynamic-import', 'react-hot-loader/babel'],
+				plugins: ['syntax-dynamic-import', 'react-hot-loader/babel', '@babel/plugin-proposal-class-properties'],
 
 				presets: [
 					'@babel/react',
@@ -88,6 +88,10 @@ module.exports = {
 					}
 				}
 			]
+		},
+		{
+			test: /\.node$/,
+			use: 'node-loader'
 		},
 		]
 	},
@@ -117,6 +121,17 @@ module.exports = {
 	resolve: {
 		alias: {
 			'react-dom': '@hot-loader/react-dom',
+			'Utils': path.resolve(__dirname, 'src/utils'),
+			'Services': path.resolve(__dirname, 'src/services'),
+			'Components': path.resolve(__dirname, 'src/components')
 		},
 	},
+	node: {
+		__dirname: true
+	},
+	externals: {
+		'active-win': 'activeWin',
+		// 'ref-napi': 'ref-napi',
+		// 'ffi-napi': 'ffi-napi'
+	}
 }

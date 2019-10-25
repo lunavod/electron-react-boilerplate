@@ -1,0 +1,15 @@
+:global body {
+	margin: 0;
+	font-weight: thin;
+	font-family: "Rubik", sans-serif;
+}
+
+:global * {
+	box-sizing: border-box;
+}
+
+:global h1 {
+	font-weight: 300;
+	margin-top: 16px;
+	margin-bottom: 8px;
+}

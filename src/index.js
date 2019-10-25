@@ -1,20 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import HelloWorld from './components/HelloWorld/index.jsx'
+import Statistics from './components/Statistics/index.jsx'
 
 import {useRoot} from 'baobab-react/hooks'
-
 import {hot} from 'react-hot-loader/root'
 
-import tree from './state'
+import './global.css'
 
-console.log('Hi')
+import tree from './state'
+import monitorStatistics from './services/monitor_statistics'
+
+;(async () => {
+	let timer = await monitorStatistics()
+	if (module.hot) {
+		module.hot.addDisposeHandler(()=>clearInterval(timer))
+	}
+})()
 
 let App = function() {
 	const Root = useRoot(tree)
 
 	return <Root >
-		<HelloWorld name = 'Lu' />
+		<Statistics />
+		{/*<HelloWorld name = 'Lu' />*/}
 	</Root>
 }
 
