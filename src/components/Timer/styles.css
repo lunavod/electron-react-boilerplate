@@ -22,6 +22,7 @@
 
 	background: rgb(0, 206, 201);
 	color: rgb(0, 140, 136);
+	cursor: pointer;
 
 	border-radius: 50%;
 }
@@ -39,4 +40,26 @@
 	margin-top: 4px;
 	font-size: .9em;
 	color: rgba(0,0,0,.8);
+}
+
+.reset {
+	width: 32px;
+	height: 32px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-left: auto;
+
+	color: #c0392b;
+	cursor: pointer;
+
+	opacity: 0;
+
+	transition: opacity .2s;
+}
+
+.timer:hover .reset {
+	opacity: 1;
 }

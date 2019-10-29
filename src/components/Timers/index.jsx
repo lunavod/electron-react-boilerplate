@@ -7,7 +7,7 @@ import {map} from 'lodash'
 import Timer from '../Timer/index.jsx'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import {setTimerStatus} from '../../actions/timer'
+import {setTimerStatus, resetTimerTime} from '../../actions/timer'
 
 // import PropTypes from 'prop-types'
 
@@ -38,6 +38,7 @@ function Timers() {
 				key={`timer_${timer.name}`}
 				setActive={()=>dispatch(setTimerStatus, timer.name, 'active')}
 				setInactive={()=>dispatch(setTimerStatus, timer.name, 'inactive')}
+				reset={()=>dispatch(resetTimerTime, timer.name)}
 			/>
 		})}
 	</div>

@@ -43,6 +43,9 @@ function Timer(props) {
 			<div>{timer.name}<span className={styles.status}> - {timer.status}</span></div>
 			<div className={styles.time}>{formatTime(timer.time, 'H:M:S')}</div>
 		</div>
+		<div className={styles.reset} onClick={props.reset}>
+			<FontAwesomeIcon icon={['fas', 'redo']} />
+		</div>
 	</div>
 }
 
@@ -50,6 +53,7 @@ Timer.propTypes = {
 	timer: PropTypes.object.isRequired,
 	setActive: PropTypes.func.isRequired,
 	setInactive: PropTypes.func.isRequired,
+	reset:PropTypes.func.isRequired,
 }
 
 export default Timer
