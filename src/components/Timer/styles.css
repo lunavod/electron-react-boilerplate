@@ -1,0 +1,42 @@
+.timer {
+	padding: 8px;
+	border-bottom: 1px solid lightgray;
+	display: flex;
+	align-items: center;
+}
+
+.active {}
+
+.action_wrapper {
+	width: 32px;
+	height: 23px;
+	
+	min-width: 32px;
+	min-height: 32px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-right: 16px;
+
+	background: rgb(0, 206, 201);
+	color: rgb(0, 140, 136);
+
+	border-radius: 50%;
+}
+
+.info {
+	
+}
+
+.status {
+	font-style: italic;
+	color: rgba(0,0,0,.5);
+}
+
+.time {
+	margin-top: 4px;
+	font-size: .9em;
+	color: rgba(0,0,0,.8);
+}

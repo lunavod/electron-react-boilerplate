@@ -3,7 +3,7 @@ import styles from './styles.css'
 import {useBranch} from 'baobab-react/hooks'
 
 import {keys, map, reduce, replace, capitalize} from 'lodash'
-import formatTime from 'Utils/TimeFormatter'
+import formatTime from '../../utils/TimeFormatter'
 
 window.formatTime = formatTime
 // import PropTypes from 'prop-types'
@@ -12,8 +12,8 @@ window.formatTime = formatTime
  * Statistics react component
  */
 function Statistics() {
-	const {data} = useBranch({
-		data: ['statistics']
+	let {data} = useBranch({
+		data: ['statistics_today']
 	})
 
 	let apps = keys(data)

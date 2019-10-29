@@ -61,19 +61,36 @@ function convertTime(ms, config) {
 }
 
 /**
+ * Adds 0 to the beginning of the string, if string's length < 0
+ * 
+ * @param {number} num number
+ */
+function numToFixedS(num) {
+	let s = '' + num
+	if (s.length < 2) s = '0' + s
+	return s
+}
+
+/**
  * Formatting time
  * 
  * @param {number} ms time in milliseconds
  * @param {number|boolean} [format] something like 'H M'. S - seconds, M - minutes, H - hours, D - days, Y - years
  * @param {object} [config] config
  */
-export default function formatTime(ms, format, config = {
-	years: true,
-	days: true,
-	hours: true,
-	minutes: true,
-	seconds: true
-}) {
+export default function formatTime(ms, format, config) {
+	let defaultConfig = {
+		years: true,
+		days: true,
+		hours: true,
+		minutes: true,
+		seconds: true
+	}
+	config = {
+		...defaultConfig,
+		...config
+	}
+
 	let data = convertTime(ms, config)
 
 	let result = format || ''
@@ -86,11 +103,17 @@ export default function formatTime(ms, format, config = {
 
 	if (format) {
 		result = format
-		result = replace(result, 'S', secondsS)
-		result = replace(result, 'M', minutesS)
-		result = replace(result, 'H', hoursS)
-		result = replace(result, 'D', daysS)
-		result = replace(result, 'Y', yearsS)
+		result = replace(result, 'SS', secondsS)
+		result = replace(result, 'MM', minutesS)
+		result = replace(result, 'HH', hoursS)
+		result = replace(result, 'DD', daysS)
+		result = replace(result, 'YY', yearsS)
+
+		result = replace(result, 'S', numToFixedS(data.seconds))
+		result = replace(result, 'M', numToFixedS(data.minutes))
+		result = replace(result, 'H', numToFixedS(data.hours))
+		result = replace(result, 'D', numToFixedS(data.days))
+		result = replace(result, 'Y', numToFixedS(data.years))
 	} else {
 		let tmp = []
 		if (data.years) tmp.push(yearsS)

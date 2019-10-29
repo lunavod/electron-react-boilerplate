@@ -1,0 +1,24 @@
+.main {
+	padding: 0 16px;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 16px;
+	margin-bottom: 8px;
+}
+
+.header span {
+	font-size: 2em;
+	display: inline-block;
+	font-weight: 300;
+}
+
+/* .add_timer {
+	width: 32px;
+	height: 32px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+} */

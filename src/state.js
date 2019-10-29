@@ -1,71 +1,70 @@
 import Baobab from 'baobab'
-import storage from './storage'
+const monkey = Baobab.monkey
 
-import {forEach, isArray, isEqual} from 'lodash'
+import {forEach, keys} from 'lodash'
+import dateFormat from 'dateformat'
+
+import registerStored from './utils/BaobabStored'
 
 const tree = new Baobab({
-	versions: {
-		electron: process.versions.electron,
-		nodejs: process.versions.node,
-		chromium: process.versions.chrome
-	},
 	timers: {
+		allTimers: {
+			'Working': {
+				name: 'Working',
+				time: 0,
+				status: 'inactive',
+				appTriggers: [
+					{
+						path: 'C:\\Users\\yegor\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
+						regex: /.+/
+					},
+					{
+						path: 'C:\\Users\\yegor\\Documents\\timer\\node_modules\\electron\\dist\\electron.exe'
+					}
+				]
+			},
 
+			'Just test': {
+				name: 'Just test',
+				time: 0,
+				status: 'inactive',
+				appTriggers: []
+			}
+		}
 	},
 	statistics: {
-
-	}
+		
+	},
+	statistics_today: monkey({
+		cursors: {
+			statistics: ['statistics']
+		},
+		get: function(data) {
+			let today = {}
+			forEach(keys(data.statistics), (key) => {
+				let obj = data.statistics[key]
+				if (obj[dateFormat(new Date(), 'dd.mm.yyyy')]) {
+					today[key] = obj[dateFormat(new Date(), 'dd.mm.yyyy')]
+				}
+			})
+			return today
+		}
+	})
 })
 
 const stored = [
 	{
 		path: ['statistics'],
-		name: 'statistics_base'
+		name: 'statistics'
+	},
+	{
+		path: ['timers'],
+		name: 'timers'
 	}
 ]
 
-forEach(stored, options => {
-	if (isArray(options)) options = {
-		path: options
-	}
-	if (!options.name) options.name = options.path.join('.')
-
-	const watcher = tree.watch({
-		target: options.path
-	})
-
-	let val = storage.get(`__stored_${options.name}`, {
-		model: options.model
-	})
-
-	// console.log('VAL', val)
-
-	if (val) {
-		tree.select(options.path).set(val)
-	} else {
-		storage.set(`__stored_${options.name}`, tree.select(options.path).get())
-	}
-
-	watcher.on('update', () => {
-		const newVal = tree.select(options.path).get()
-		// console.log(`${options.path.join(".")} was updated!!!:`, newVal)
-		storage.set(`__stored_${options.name}`, newVal)
-	})
-
-	storage.listenChange(`__stored_${options.name}`, val => {
-		val = storage.get(`__stored_${options.name}`, {
-			model: true
-		})
-		// console.log('STORAGE CHANGED', `__stored_${options.name}`, val)
-		if (!isEqual(JSON.stringify(val), JSON.stringify(tree.select(options.path).get()))) {
-			// console.warn('UPDATED')
-			tree.select(options.path).set(val)
-		}
-	})
-})
+registerStored(stored, tree)
 
 window.tree = tree
-window.storage = storage
-
 
 export default tree
