@@ -11,7 +11,8 @@
     "plugin:import/warnings",
     "plugin:lodash/recommended",
 	"plugin:sonarjs/recommended",
-	"plugin:jsdoc/recommended"
+	"plugin:jsdoc/recommended",
+	"plugin:css-modules/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -35,7 +36,8 @@
     "no-loops",
     "no-use-extend-native",
 	"promise",
-	"jsdoc"
+	"jsdoc",
+	"css-modules"
   ],
   "rules": {
     "indent": [
@@ -52,7 +54,7 @@
     ],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
-    "no-warning-comments": "error",
+    "no-warning-comments": "warn",
     "no-loops/no-loops": 2,
     "promise/always-return": "error",
     "promise/no-return-wrap": "error",
