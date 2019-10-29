@@ -1,4 +1,6 @@
 /*eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
+import dateFormat from 'dateformat'
+
 export default class Logger {
 	config = {}
 
@@ -15,6 +17,6 @@ export default class Logger {
 	log = (type, data) => {
 		if (!this.config[type]) return
 
-		console.log(...data)
+		console.log(`${dateFormat(new Date(), 'h:MM:ss')} [${type}]`, ...data)
 	}
 }

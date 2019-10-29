@@ -1,6 +1,9 @@
 .timer {
-	padding: 8px;
 	border-bottom: 1px solid lightgray;
+}
+
+.info {
+	padding: 8px;
 	display: flex;
 	align-items: center;
 }
@@ -27,10 +30,6 @@
 	border-radius: 50%;
 }
 
-.info {
-	
-}
-
 .status {
 	font-style: italic;
 	color: rgba(0,0,0,.5);
@@ -42,7 +41,20 @@
 	color: rgba(0,0,0,.8);
 }
 
+.actions_right {
+	margin-left: auto;
+	display: flex;
+}
+
 .reset {
+	color: #c0392b;
+}
+
+.wrench {
+	color: gray;
+}
+
+.reset, .wrench {
 	width: 32px;
 	height: 32px;
 
@@ -50,16 +62,100 @@
 	justify-content: center;
 	align-items: center;
 
-	margin-left: auto;
-
-	color: #c0392b;
 	cursor: pointer;
-
 	opacity: 0;
-
 	transition: opacity .2s;
 }
 
 .timer:hover .reset {
 	opacity: 1;
+}
+
+.timer:hover .reset, .timer:hover .wrench {
+	opacity: 1;
+}
+
+.settings {
+	display: flex;
+	flex-direction: column;
+	max-height: 0;
+	transition: max-height .2s;
+	overflow: hidden;
+}
+
+.settings.active {
+	border-top: 1px solid rgba(0,0,0,.1);
+	max-height: 300px;
+	transition: max-height .4s;
+}
+
+.remove_timer {
+	display: inline-block;
+	color: #c0392b;
+	margin-left: auto;
+	margin-right: 8px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	font-size: .8em;
+	cursor: pointer;
+}
+
+.trigger {
+	margin-bottom: 12px;
+	display: flex;
+	align-items: center;
+}
+
+.trigger:last-child {
+	margin-bottom: 0;
+}
+
+.inputs {
+	width: calc(100% - 36px);
+	position: relative;
+}
+
+.trigger input {
+	padding: 4px 8px;
+}
+
+.trigger_path {
+	width: calc(70% - 4px);
+	margin-right: 8px;
+}
+
+.trigger_regex {
+	width: calc(30% - 4px);
+}
+
+.remove_trigger {
+	width: 28px;
+	height: 28px;
+	color: #ff7675;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	/* opacity: 0; */
+	transition: opacity .2s;
+}
+
+.trigger:hover .remove_trigger {
+	opacity: 1;
+}
+
+.add_trigger {
+	display: inline-block;
+	width: auto;
+	font-size: .9em;
+	color: #1abc9c;
+	margin-bottom: 8px;
+	cursor: pointer;
+	transition: background .2s;
+}
+
+.add_trigger:hover {
+	color: #16a085;
+	transition: color .3s;
 }

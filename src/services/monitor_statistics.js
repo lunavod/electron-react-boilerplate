@@ -9,10 +9,10 @@ import dateFormat from 'dateformat'
 let format = 'dd.mm.yyyy'
 
 let logger = new Logger({
-	tree: true,
+	tree: false,
 	timer: false,
-	cur_win: true,
-	timers: true
+	cur_win: false,
+	timers: false
 })
 
 let timerId = 0
@@ -117,8 +117,8 @@ function isTimerTriggered(triggers, win) {
 	let triggered = false
 	forEach(triggers, trigger => {
 		if (trigger.path == win.path) {
-			if (trigger.regex && !win.title.match(trigger.regex)) {
-				logger.log('timers', ['Regex continue'])
+			if (trigger.regex && !win.title.match(new RegExp(trigger.regex))) {
+				logger.log('timers', ['Regex continue', new RegExp(trigger.regex), trigger.regex])
 				return
 			}
 			logger.log('timers', ['Regex pass'])

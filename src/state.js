@@ -16,7 +16,7 @@ const tree = new Baobab({
 				appTriggers: [
 					{
 						path: 'C:\\Users\\yegor\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
-						regex: /.+/
+						regex: '.+'
 					},
 					{
 						path: 'C:\\Users\\yegor\\Documents\\timer\\node_modules\\electron\\dist\\electron.exe'
