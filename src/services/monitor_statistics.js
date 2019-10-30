@@ -1,9 +1,10 @@
 const activeWin = global.require('active-win')
-import getCursorPos from 'windows-cursor-pos'
+const getCursorPos = global.require('windows-cursor-pos')
+
 import tree from '../state.js'
 
 import {forEach, clone} from 'lodash'
-import Logger from 'Utils/Logger'
+import Logger from '../utils/Logger'
 
 import dateFormat from 'dateformat'
 import { formatOfDate as format } from '../utils/constants'
@@ -21,6 +22,7 @@ let timerId = 0
  * Function that monitors statistics and writes it to tree
  */
 export default async function monitorWindowAndCursor() {
+	// return 2
 	let win = {id: 0, app: '', path: '', title: ''}
 	let pos = {x: 0, y: 0}
 

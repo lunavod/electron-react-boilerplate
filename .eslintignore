@@ -1,1 +1,4 @@
 /electron_src
+/dist
+/build
+/node_modules

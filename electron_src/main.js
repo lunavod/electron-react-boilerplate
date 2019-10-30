@@ -2,14 +2,7 @@
 const {app,BrowserWindow} = require('electron')
 const path = require('path')
 
-const {
-	default: installExtension,
-	REACT_DEVELOPER_TOOLS
-} = require('electron-devtools-installer')
-
-installExtension(REACT_DEVELOPER_TOOLS)
-	.then((name) => console.log(`Added Extension:  ${name}`))
-	.catch((err) => console.log('An error occurred: ', err))
+const args = process.argv.slice(2)
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,23 +10,31 @@ let mainWindow
 
 function createWindow() {
 	// Create the browser window.
-	mainWindow = new BrowserWindow({
-		width: 1600,
-		height: 600,
-		webPreferences: {
-			preload: path.join(__dirname, 'preload.js'),
-			nodeIntegration: true
-		}
-	})
 
 	// and load the index.html of the app.
-	// mainWindow.loadFile('electron_src/index.html')
-	mainWindow.loadURL('http://localhost:8080/index.html')
-
-	mainWindow.webContents.openDevTools()
-
-	// Open the DevTools.
-	// mainWindow.webContents.openDevTools()
+	if (args[0] == 'development') {
+		mainWindow = new BrowserWindow({
+			width: 1600,
+			height: 600,
+			webPreferences: {
+				preload: path.join(__dirname, 'preload.js'),
+				nodeIntegration: true
+			}
+		})
+		mainWindow.loadURL('http://localhost:8080/index.html')
+		mainWindow.webContents.openDevTools()
+	} else {
+		mainWindow = new BrowserWindow({
+			width: 800,
+			height: 600,
+			webPreferences: {
+				preload: path.join(__dirname, 'preload.js'),
+				nodeIntegration: true
+			}
+		})
+		mainWindow.loadFile('dist/index.html')
+		// mainWindow.webContents.openDevTools()
+	}
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function () {

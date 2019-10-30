@@ -24,6 +24,8 @@ function Statistics() {
 	let apps = keys(data)
 	apps.sort((a,b) => data[b].time[date] - data[a].time[date])
 
+	if (!apps.length) return <></>
+
 	let max = data[apps[0]].time[date]
 
 	return <div className={styles.main}>

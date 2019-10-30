@@ -27,7 +27,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
  */
 
 module.exports = {
-	mode: 'development',
+	mode: 'production',
 	entry: {
 		rhmr: 'react-hot-loader/patch',
 		index: './src/index.js'
@@ -76,7 +76,7 @@ module.exports = {
 				{
 					loader: MiniCssExtractPlugin.loader,
 					options: {
-						hmr: true,
+						hmr: false,
 					},
 				},
 				// 'style-loader',
@@ -84,7 +84,7 @@ module.exports = {
 					loader: 'css-loader',
 					options: {
 						modules: {
-							localIdentName: '[path][name]__[local]--[hash:base64:5]',
+							localIdentName: '[hash:base64:5]',
 						},
 					}
 				}
@@ -113,24 +113,17 @@ module.exports = {
 		}
 	},
 
-	devServer: {
-		contentBase: './dist',
-		port: 8080,
-		hot: true,
-	},
-
 	resolve: {
 		alias: {
-			'react-dom': '@hot-loader/react-dom',
-			'Utils': path.resolve(__dirname, 'src/utils'),
-			'Services': path.resolve(__dirname, 'src/services'),
-			'Components': path.resolve(__dirname, 'src/components')
-		},
+			'react-dom': '@hot-loader/react-dom'
+		}
 	},
 
 	node: {
-		// __dirname: true
+		__dirname: false
 	},
+
+	context: path.resolve(__dirname),
 
 	externals: {
 	}
