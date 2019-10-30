@@ -74,3 +74,13 @@ export function addTimerTrigger(tree, timerName, trigger={path: '', regex: ''}) 
 export function removeTimer(tree, timerName) {
 	tree.select(['timers', 'allTimers']).unset(timerName)
 }
+
+/**
+ * Baobab action - adds timer
+ * 
+ * @param {object} tree Baobab tree
+ * @param {string} timerName name of timer
+ */
+export function addTimer(tree, timerName) {
+	tree.select(['timers', 'allTimers']).set(timerName, {name: timerName, time: 0, appTriggers: [], status: 'inactive'})
+}

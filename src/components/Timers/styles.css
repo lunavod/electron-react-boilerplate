@@ -15,10 +15,28 @@
 	font-weight: 300;
 }
 
-/* .add_timer {
-	width: 32px;
-	height: 32px;
+.add_timer_wrapper {
 	display: flex;
+}
+
+.add_timer {
+	width: 100%;
+	padding: 4px 8px;
+}
+
+.add_timer_button {
+	display: flex;
+	background: rgb(0, 206, 201);
+	color: white;
+	width: 48px;
+	border-radius: 5px;
+	height: 28px;
 	justify-content: center;
 	align-items: center;
-} */
+	margin-left: 8px;
+	cursor: pointer;
+}
+
+.add_timer_button .icon {
+	transform: rotate(180deg);
+}

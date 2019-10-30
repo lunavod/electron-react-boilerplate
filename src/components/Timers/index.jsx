@@ -1,15 +1,15 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import styles from './styles.css'
 import {useBranch} from 'baobab-react/hooks'
 // import Logger from '../../utils/Logger'
 import {map} from 'lodash'
 import Timer from '../Timer/index.jsx'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {setTimerStatus, resetTimerTime, updateTimerTriggerPath,
 	updateTimerTriggerRegex, addTimerTrigger, removeTimerTrigger,
-	removeTimer} from '../../actions/timer'
+	removeTimer, addTimer} from '../../actions/timer'
 
 // import PropTypes from 'prop-types'
 
@@ -21,14 +21,39 @@ function Timers() {
 		data: ['timers']
 	})
 
+	const [newTimerName, setNewTimerName] = useState('')
+
+	function handleNewTimerInput(e) {
+		e.preventDefault()
+		setNewTimerName(e.target.value)
+	}
+
+	function onNewTimerKeyPress(e) {
+		if (e.key == 'Enter') {
+			dispatch(addTimer, newTimerName)
+			setNewTimerName('')
+		}
+	}
+
 	let timers = data.allTimers
 	return <div className={styles.main}>
 		<div className={styles.header}>
 			<span>Таймеры:</span>
-			{/* <div className={styles.add_timer}>
-				<FontAwesomeIcon icon={['fas', 'plus']} />
-			</div> */}
 		</div>
+
+		<div className={styles.add_timer_wrapper}>
+			<input
+				type="text"
+				placeholder="Добавить таймер"
+				className={styles.add_timer}
+				value={newTimerName}
+				onChange={handleNewTimerInput}
+				onKeyPress={onNewTimerKeyPress} />
+			<div className={styles.add_timer_button} onClick={()=>dispatch(addTimer, newTimerName)}>
+				<FontAwesomeIcon icon={['fas', 'share']} className={styles.icon} />
+			</div>
+		</div>
+
 		{map(timers, timer => {
 			return <Timer
 				timer={timer}

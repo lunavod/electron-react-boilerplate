@@ -56,7 +56,8 @@ export default async function monitorWindowAndCursor() {
 		if (Date.now() - last_change >= 5 * 60 * 1000) {
 			logger.log(Date.now() - last_change)
 			logger.log('Saaaaame!')
-			data[win.app][date] -= (Date.now() - last_change)
+			// data[win.app][date] -= (Date.now() - last_change)
+			tree.select(['statistics', win.app, date]).set(Date.now() - last_change)
 			isStopped = true
 
 			forEach(timers, (timer, name) => {
@@ -70,7 +71,7 @@ export default async function monitorWindowAndCursor() {
 	
 				tree.select(['timers', 'allTimers', timer.name, 'status']).set('inactive')
 				tree.select(['timers', 'allTimers', timer.name, 'time']).set(timer.time - (Date.now() - last_change))
-				timer.time -= (Date.now() - last_change)
+				// timer.time -= (Date.now() - last_change)
 				
 				logger.log('timers', ['Stopped', timer, name])
 			})

@@ -8,6 +8,8 @@ import formatTime from '../../utils/TimeFormatter'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+// TODO: Changing timer's name
+
 /**
  * Timer react component
  * 
