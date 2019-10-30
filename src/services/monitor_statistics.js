@@ -6,7 +6,7 @@ import {forEach, clone} from 'lodash'
 import Logger from 'Utils/Logger'
 
 import dateFormat from 'dateformat'
-let format = 'dd.mm.yyyy'
+import { formatOfDate as format } from '../utils/constants'
 
 let logger = new Logger({
 	tree: false,
@@ -55,9 +55,8 @@ export default async function monitorWindowAndCursor() {
 
 		if (Date.now() - last_change >= 5 * 60 * 1000) {
 			logger.log(Date.now() - last_change)
-			logger.log('Saaaaame!')
-			// data[win.app][date] -= (Date.now() - last_change)
-			tree.select(['statistics', win.app, date]).set(Date.now() - last_change)
+			tree.select(['statistics', win.app, 'time', date])
+				.set(data[win.app].time[date] - (Date.now() - last_change))
 			isStopped = true
 
 			forEach(timers, (timer, name) => {
@@ -70,20 +69,25 @@ export default async function monitorWindowAndCursor() {
 				logger.log('timers', ['Stopping', timer, name])
 	
 				tree.select(['timers', 'allTimers', timer.name, 'status']).set('inactive')
-				tree.select(['timers', 'allTimers', timer.name, 'time']).set(timer.time - (Date.now() - last_change))
+				tree.select(['timers', 'allTimers', timer.name, 'time', date])
+					.set(timer.time[date] - (Date.now() - last_change))
+				tree.select(['timers', 'allTimers', timer.name, 'time_total'])
+					.set(timer.time_total - (Date.now() - last_change))
 				// timer.time -= (Date.now() - last_change)
 				
 				logger.log('timers', ['Stopped', timer, name])
 			})
+
+			return
 		}
 
 		logger.log(cur_win, cur_pos, win, pos, Date.now() - last_change)
 		if (!data[win.app]) {
-			tree.select(['statistics']).set({...data, [win.app]: {[date]: timeout}})
-		} else if (!data[win.app][date]) {
-			tree.select(['statistics', win.app]).set({...data[win.app], [date]: timeout})
+			tree.select(['statistics']).set(win.app, {time: {[date]: timeout}, path: win.path})
+		} else if (!data[win.app].time[date]) {
+			tree.select(['statistics', win.app, 'time']).set(date, timeout)
 		} else {
-			tree.select(['statistics', win.app, date]).set(data[win.app][date] + timeout)
+			tree.select(['statistics', win.app, 'time', date]).set(data[win.app].time[date] + timeout)
 		}
 
 		forEach(timers, (timer, name) => {

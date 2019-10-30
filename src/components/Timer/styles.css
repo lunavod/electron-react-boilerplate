@@ -35,10 +35,15 @@
 	color: rgba(0,0,0,.5);
 }
 
-.time {
+.time_info {
 	margin-top: 4px;
 	font-size: .9em;
 	color: rgba(0,0,0,.8);
+}
+
+.time {
+	font-size: .95em;
+	font-family: 'Roboto Mono', monospace;
 }
 
 .actions_right {

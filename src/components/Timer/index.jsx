@@ -5,8 +5,11 @@ import classNames from 'classnames'
 import {includes, map} from 'lodash'
 import PropTypes from 'prop-types'
 import formatTime from '../../utils/TimeFormatter'
+import dateFormat from 'dateformat'
+import { formatOfDate as format } from '../../utils/constants'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 // TODO: Changing timer's name
 
@@ -17,6 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
  */
 function Timer(props) {
 	const timer = props.timer
+	const date = dateFormat(new Date(), format)
 
 	const [settingsVisible, setSettingsVisible] = useState(false)
 
@@ -46,7 +50,11 @@ function Timer(props) {
 			</div>
 			<div>
 				<div>{timer.name}<span className={styles.status}> - {timer.status}</span></div>
-				<div className={styles.time}>{formatTime(timer.time, 'H:M:S')}</div>
+				<div className={styles.time_info}>
+					<span className={styles.time}>{formatTime(timer.time[date], 'H:M:S')}</span>
+					&nbsp;сегодня, всего&nbsp;
+					<span className={styles.time}>{formatTime(timer.time_total, 'H:M:S')}</span>
+				</div>
 			</div>
 			<div className={styles.actions_right}>
 				<div className={styles.wrench} onClick={()=>setSettingsVisible(!settingsVisible)}>
@@ -63,7 +71,7 @@ function Timer(props) {
 		})}>
 			<div className={styles.remove_timer} onClick={()=>props.removeTimer()}>Удалить таймер</div>
 			{map(timer.appTriggers, (trigger, index) => {
-				return <div className={styles.trigger}>
+				return <div className={styles.trigger} key={`trigger_${index}`}>
 					<div className={styles.inputs}>
 						<input
 							className={styles.trigger_path}

@@ -82,5 +82,6 @@ export function removeTimer(tree, timerName) {
  * @param {string} timerName name of timer
  */
 export function addTimer(tree, timerName) {
-	tree.select(['timers', 'allTimers']).set(timerName, {name: timerName, time: 0, appTriggers: [], status: 'inactive'})
+	tree.select(['timers', 'allTimers'])
+		.set(timerName, {name: timerName, time: {}, time_total: 0, appTriggers: [], status: 'inactive'})
 }

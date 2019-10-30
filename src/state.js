@@ -3,6 +3,7 @@ const monkey = Baobab.monkey
 
 import {forEach, keys} from 'lodash'
 import dateFormat from 'dateformat'
+import {formatOfDate as format} from './utils/constants'
 
 import registerStored from './utils/BaobabStored'
 
@@ -11,7 +12,10 @@ const tree = new Baobab({
 		allTimers: {
 			'Working': {
 				name: 'Working',
-				time: 0,
+				time_total: 0,
+				time: {
+					[dateFormat(new Date(), format)]: 0
+				},
 				status: 'inactive',
 				appTriggers: [
 					{
@@ -26,7 +30,9 @@ const tree = new Baobab({
 
 			'Just test': {
 				name: 'Just test',
-				time: 0,
+				time: {
+				},
+				time_total: 0,
 				status: 'inactive',
 				appTriggers: []
 			}
@@ -43,8 +49,8 @@ const tree = new Baobab({
 			let today = {}
 			forEach(keys(data.statistics), (key) => {
 				let obj = data.statistics[key]
-				if (obj[dateFormat(new Date(), 'dd.mm.yyyy')]) {
-					today[key] = obj[dateFormat(new Date(), 'dd.mm.yyyy')]
+				if (obj.time[dateFormat(new Date(), 'dd.mm.yyyy')]) {
+					today[key] = obj
 				}
 			})
 			return today
