@@ -1,6 +1,6 @@
 {
  "name": "Timer",
- "version": "1.0.1",
+ "version": "1.0.2",
  "description": "Time management, yay!",
  "main": "electron_src/main.js",
  "scripts": {
@@ -16,6 +16,7 @@
   "prepush": "npm run lint",
   "eb:pack": "electron-builder --dir",
   "eb:dist": "electron-builder",
+  "release": "eb:dist",
   "dist": "npm-run-all wp:dist eb:dist",
   "pack": "npm-run-all wp:dist eb:pack",
   "postinstall": "electron-builder install-app-deps"
