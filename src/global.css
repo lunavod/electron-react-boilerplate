@@ -13,3 +13,9 @@
 	margin-top: 16px;
 	margin-bottom: 8px;
 }
+
+:global .main_container {
+	height: calc(100vh - 28px);
+	min-height: calc(100vh - 28px);
+	overflow-x: auto;
+}

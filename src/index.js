@@ -34,9 +34,10 @@ let App = function() {
 
 	return <Root >
 		<AppFrame />
-		{/* <DNDtest /> */}
-		<Timers />
-		<Statistics />
+		<div className="main_container">
+			<Timers />
+			<Statistics />
+		</div>
 	</Root>
 }
 
