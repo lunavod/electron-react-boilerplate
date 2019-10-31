@@ -35,7 +35,7 @@ module.exports = {
 
 	output: {
 		filename: '[name].js',
-		path: path.resolve(__dirname, 'app')
+		path: path.resolve(__dirname, 'app', 'dist')
 	},
 
 	plugins: [
