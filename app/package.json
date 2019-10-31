@@ -1,6 +1,6 @@
 {
   "name": "Timer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "active-win": "^5.1.3",
+    "auto-launch": "^5.0.5",
     "electron-log": "^3.0.8",
     "electron-updater": "^4.2.0",
     "windows-cursor-pos": "github:lunavod/windows-cursor-pos"

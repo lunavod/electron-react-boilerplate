@@ -6,10 +6,13 @@ const {
 	Tray,
 	netLog
 } = require('electron')
+
 const { autoUpdater } = require("electron-updater")
 autoUpdater.logger = require("electron-log")
 autoUpdater.logger.transports.file.level = "debug"
+
 const path = require('path')
+const fs = require('fs')
 
 const args = process.argv.slice(2)
 
@@ -29,7 +32,14 @@ function createWindow() {
 	}) 
 	autoUpdater.checkForUpdates()
 
-	const iconPath = path.resolve('./assets/icon.png')
+	let iconPath = path.resolve(require('path').dirname(process.execPath)+'/assets/icon.png')
+	if (!fs.existsSync(iconPath)) {
+		iconPath = path.resolve('app/icon.png')
+	}
+	if (!fs.existsSync(iconPath)) {
+		iconPath = path.resolve('icon.png')
+	}
+	console.log(iconPath)
 	function hideApp() {
 		appIcon = new Tray(iconPath)
 		function showWindow() {
@@ -104,10 +114,36 @@ function createWindow() {
 	})
 }
 
+function enableAutoLaunch() {
+	const AutoLaunch = require('auto-launch');
+	const appAutoLauncher = new AutoLaunch({
+		name: 'Timer',
+	});
+	 
+	appAutoLauncher.enable();
+	 
+	//minecraftAutoLauncher.disable();
+	 
+	 
+	appAutoLauncher.isEnabled()
+	.then(function(isEnabled){
+		if(isEnabled){
+			return;
+		}
+		appAutoLauncher.enable();
+	})
+	.catch(function(err){
+		// handle error
+	});
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
+if (args[0] != 'development') {
+	app.on('ready', enableAutoLaunch)
+}
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
