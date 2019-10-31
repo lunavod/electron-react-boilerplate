@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Statistics from './components/Statistics/index.jsx'
 import Timers from './components/Timers/index.jsx'
+import AppFrame from './components/AppFrame/index.jsx'
 
 import {useRoot} from 'baobab-react/hooks'
 import {hot} from 'react-hot-loader/root'
@@ -32,6 +33,7 @@ let App = function() {
 	const Root = useRoot(tree)
 
 	return <Root >
+		<AppFrame />
 		{/* <DNDtest /> */}
 		<Timers />
 		<Statistics />

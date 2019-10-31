@@ -2,7 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 import { faPause, faPlay, faHandPaper, faPlus,
 	faRedo, faWrench, faTimes, faShare, faArrowsAltV } from '@fortawesome/free-solid-svg-icons'
-import {  } from '@fortawesome/free-regular-svg-icons'
+import { faWindowMinimize, faWindowMaximize, faWindowClose, faWindowRestore } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
 	faPause,
@@ -13,5 +13,9 @@ library.add(
 	faWrench,
 	faTimes,
 	faShare,
-	faArrowsAltV
+	faArrowsAltV,
+	faWindowMinimize,
+	faWindowMaximize,
+	faWindowClose,
+	faWindowRestore
 )

@@ -4,7 +4,8 @@ const {
 	BrowserWindow,
 	Menu,
 	Tray,
-	netLog
+	netLog,
+	ipcMain
 } = require('electron')
 
 const { autoUpdater } = require("electron-updater")
@@ -71,7 +72,8 @@ function createWindow() {
 				preload: path.join(__dirname, 'preload.js'),
 				nodeIntegration: true
 			},
-			icon: iconPath
+			icon: iconPath,
+			frame: false,
 		})
 		mainWindow.loadURL('http://localhost:8080/index.html')
 		mainWindow.webContents.openDevTools()
@@ -83,17 +85,18 @@ function createWindow() {
 				preload: path.join(__dirname, 'preload.js'),
 				nodeIntegration: true
 			},
-			icon: iconPath
+			icon: iconPath,
+			frame: false,
 		})
 		mainWindow.loadFile('dist/index.html')
 		// mainWindow.webContents.openDevTools()
 	}
 
 	mainWindow.on('close', function (e) {
-		if (!app.isQuiting) {
-			e.preventDefault()
-			hideApp()
-		}
+		// if (!app.isQuiting) {
+		// 	e.preventDefault()
+		// 	hideApp()
+		// }
 	})
 
 	// Emitted when the window is closed.
@@ -109,8 +112,24 @@ function createWindow() {
 		// hideApp()
 	})
 
-	mainWindow.on('show', function () {
-		// appIcon.setHighlightMode('always')
+	ipcMain.on('minimize', () => {
+		mainWindow.minimize()
+	})
+
+	ipcMain.on('maximize', () => {
+		mainWindow.maximize()
+	})
+
+	ipcMain.on('unmaximize', () => {
+		mainWindow.unmaximize()
+	})
+
+	ipcMain.on('fake-close', () => {
+		hideApp()
+	})
+
+	ipcMain.on('is-maximized', (event) => {
+		event.returnValue = mainWindow.isMaximized
 	})
 }
 
