@@ -18,6 +18,8 @@ let timerId = 0
 
 /**
  * Function that monitors statistics and writes it to tree
+ * 
+ * @param {object} tree Baobab tree
  */
 export default async function monitorWindowAndCursor(tree) {
 	// return 2

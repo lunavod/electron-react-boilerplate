@@ -91,10 +91,11 @@ export function addTimer(tree, timerName) {
 }
 
 /**
- * Baobab action - adds timer
+ * Baobab action - reorders timers
  * 
  * @param {object} tree Baobab tree
- * @param {string} timerName name of timer
+ * @param {number} startIndex old index
+ * @param {number} endIndex new index
  */
 export function reorderTimers(tree, startIndex, endIndex) {
 	let list = tree.select(['timers', 'order']).get()

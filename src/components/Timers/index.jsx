@@ -26,12 +26,12 @@ function Timers() {
 
 	const [newTimerName, setNewTimerName] = useState('')
 
-	function handleNewTimerInput(e) {
+	const handleNewTimerInput = (e) => {
 		e.preventDefault()
 		setNewTimerName(e.target.value)
 	}
 
-	function onNewTimerKeyPress(e) {
+	const onNewTimerKeyPress = (e) => {
 		if (e.key == 'Enter') {
 			dispatch(addTimer, newTimerName)
 			setNewTimerName('')
@@ -50,7 +50,7 @@ function Timers() {
 		return result
 	}
 
-	function onDragEnd(result) {
+	const onDragEnd = (result) => {
 		if (!result.destination) {
 			return
 		}

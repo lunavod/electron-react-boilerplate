@@ -34,9 +34,17 @@ function AppFrame() {
 	return <div className={styles.main}>
 		<div className={styles.title}>Timer v{global.require('electron').remote.app.getVersion()}</div>
 		<div className={styles.actions}>
-			<div className={styles.minimize_icon} onClick={onMinimize}><FontAwesomeIcon icon={['far', 'window-minimize']} /></div>
-			<div className={styles.maximize_icon} onClick={onMaximize}>{isMaximized? <FontAwesomeIcon icon={['far', 'window-restore']} /> : <FontAwesomeIcon icon={['far', 'window-maximize']} />}</div>
-			<div className={styles.close_icon} onClick={onClose}><FontAwesomeIcon icon={['fas', 'times']} /></div>
+			<div onClick={onMinimize}>
+				<FontAwesomeIcon icon={['far', 'window-minimize']} />
+			</div>
+			<div onClick={onMaximize}>
+				{isMaximized? 
+					<FontAwesomeIcon icon={['far', 'window-restore']} />
+					:
+					<FontAwesomeIcon icon={['far', 'window-maximize']} />
+				}
+			</div>
+			<div onClick={onClose}><FontAwesomeIcon icon={['fas', 'times']} /></div>
 		</div>
 	</div>
 }
