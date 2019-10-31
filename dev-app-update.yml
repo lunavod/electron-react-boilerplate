@@ -1,0 +1,4 @@
+owner: lunavod
+repo: timer
+provider: github
+updaterCacheDirName: timer-updater

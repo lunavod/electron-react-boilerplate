@@ -1,0 +1,17 @@
+{
+  "name": "Timer",
+  "version": "1.0.3",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "active-win": "^5.1.3",
+    "electron-log": "^3.0.8",
+    "electron-updater": "^4.2.0",
+    "windows-cursor-pos": "github:lunavod/windows-cursor-pos"
+  }
+}

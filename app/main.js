@@ -3,8 +3,12 @@ const {
 	app,
 	BrowserWindow,
 	Menu,
-	Tray
+	Tray,
+	netLog
 } = require('electron')
+const { autoUpdater } = require("electron-updater")
+autoUpdater.logger = require("electron-log")
+autoUpdater.logger.transports.file.level = "debug"
 const path = require('path')
 
 const args = process.argv.slice(2)
@@ -14,6 +18,17 @@ const args = process.argv.slice(2)
 let mainWindow
 
 function createWindow() {
+	autoUpdater.on('checking-for-update', () => {
+		netLog.startLogging('netlog.txt')
+	})
+	autoUpdater.on('error', () => {
+		netLog.stopLogging()
+	})
+	autoUpdater.on('update-downloaded', () => {
+		autoUpdater.quitAndInstall()
+	}) 
+	autoUpdater.checkForUpdates()
+
 	const iconPath = path.resolve('./assets/icon.png')
 	function hideApp() {
 		appIcon = new Tray(iconPath)
@@ -60,7 +75,7 @@ function createWindow() {
 			},
 			icon: iconPath
 		})
-		mainWindow.loadFile('dist/index.html')
+		mainWindow.loadFile('index.html')
 		// mainWindow.webContents.openDevTools()
 	}
 
