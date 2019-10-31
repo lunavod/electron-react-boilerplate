@@ -8,14 +8,14 @@ import {hot} from 'react-hot-loader/root'
 
 import './global.css'
 
-import tree from './state'
+import tree from './storage/state'
 import monitorStatistics from './services/monitor_statistics'
 import tickTimers from './services/tick_timers'
 
-import './fa-library'
+import './utils/fa-library'
 
 ;(async () => {
-	let timer = await monitorStatistics()
+	let timer = await monitorStatistics(tree)
 	if (module.hot) {
 		module.hot.addDisposeHandler(()=>clearInterval(timer))
 	}
@@ -44,5 +44,5 @@ ReactDOM.render(<App />,
 )
 
 if(module.hot) {
-	module.hot.accept('./state.js', ()=>location.reload())
+	module.hot.accept('./storage/state.js', ()=>location.reload())
 }

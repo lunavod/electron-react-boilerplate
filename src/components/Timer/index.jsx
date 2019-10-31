@@ -36,18 +36,6 @@ function Timer(props) {
 	}
 
 	let provided = props.provided || {innerRef: noop, draggableProps: {}, dragHandleProps: {}}
-	let enableDrag = props.enableDrag || noop
-	let disableDrag = props.disableDrag || noop
-
-	const onMouseDown = e => {
-		enableDrag()
-		console.log('Drag it!', e.target)
-	}
-
-
-	const onMouseUp = e => {
-		disableDrag()
-	}
 
 	return <div className={classNames({
 		[styles.timer]: true,
@@ -58,8 +46,7 @@ function Timer(props) {
 	{...provided.dragHandleProps}
 	>
 		<div className={styles.info}>
-			<div
-	 className={styles.action_wrapper} onClick={onActionClick} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+			<div className={styles.action_wrapper} onClick={onActionClick}>
 				{timer.status == 'active' ? 
 					<FontAwesomeIcon icon={['fas', 'pause']} /> : <></>}
 				{timer.status == 'inactive' ? 

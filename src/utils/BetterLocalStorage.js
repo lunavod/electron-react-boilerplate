@@ -9,9 +9,7 @@ class BetterLocalStorage {
 
 	listeners = []
 
-	get(key, {
-		json = true
-	}) {
+	get(key, json = true) {
 		let val = localStorage.getItem(key)
 
 		if (!val) return val

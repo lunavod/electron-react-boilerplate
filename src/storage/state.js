@@ -3,13 +3,16 @@ const monkey = Baobab.monkey
 
 import {forEach, keys} from 'lodash'
 import dateFormat from 'dateformat'
-import {formatOfDate as format} from './utils/constants'
+import {formatOfDate as format} from '../utils/constants'
 
-import registerStored from './utils/BaobabStored'
+import registerStored from '../utils/BaobabStored'
+
+import setUpMigrations from '../utils/BaobabMigrations'
+import migrations from './migrations'
 
 const tree = new Baobab({
 	timers: {
-		order: ['Just test', 'Working'],
+		// order: ['Just test', 'Working'],
 		allTimers: {
 			'Working': {
 				name: 'Working',
@@ -71,6 +74,7 @@ const stored = [
 ]
 
 registerStored(stored, tree)
+setUpMigrations(tree, migrations)
 
 window.tree = tree
 

@@ -1,5 +1,5 @@
 
-import storage from '../storage'
+import storage from '../utils/BetterLocalStorage'
 
 import {forEach, isArray, isEqual} from 'lodash'
 
