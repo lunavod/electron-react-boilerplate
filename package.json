@@ -1,21 +1,23 @@
 {
  "name": "Timer",
- "version": "1.0.0",
+ "version": "1.0.1",
  "description": "Time management, yay!",
  "main": "electron_src/main.js",
  "scripts": {
-  "start": "run-p electron:dev wds",
+  "start": "run-p electron:dev wp:wds",
   "electron": "electron . production",
   "electron:dev": "electron . development",
-  "build": "webpack --config webpack.production.config.js",
-  "wds": "webpack-dev-server --hot",
+  "wp:dist": "webpack --config webpack.production.config.js",
+  "wp:wds": "webpack-dev-server --hot",
   "lintjs": "eslint . --ext js --ext jsx",
   "lintcss": "stylelint .",
   "lint": "npm-run-all --parallel lintjs lintcss",
   "precommit": "npm run lint",
   "prepush": "npm run lint",
-  "pack": "electron-builder --dir",
-  "dist": "electron-builder",
+  "eb:pack": "electron-builder --dir",
+  "eb:dist": "electron-builder",
+  "dist": "npm-run-all wp:dist eb:dist",
+  "pack": "npm-run-all wp:dist eb:pack",
   "postinstall": "electron-builder install-app-deps"
  },
  "repository": "https://github.com/lunavod/timer",
@@ -88,13 +90,7 @@
   "windows-cursor-pos": "github:lunavod/windows-cursor-pos"
  },
  "build": {
-  "appId": "your.id",
-  "win": {
-   "target": "portable"
-  },
-  "mac": {
-   "category": "your.app.category.type"
-  },
+  "appId": "com.lenavod.timer",
   "files": [
    "./dist/**/*",
    "./electron_src/main.js",
@@ -121,6 +117,12 @@
   "directories": {
    "output": "build"
   },
-  "npmRebuild": false
+  "npmRebuild": false,
+  "publish": {
+	  "provider": "github"
+  },
+  "extraFiles": [
+	  "assets"
+  ]
  }
 }

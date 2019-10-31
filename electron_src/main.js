@@ -1,5 +1,10 @@
 // Modules to control application life and create native browser window
-const {app,BrowserWindow} = require('electron')
+const {
+	app,
+	BrowserWindow,
+	Menu,
+	Tray
+} = require('electron')
 const path = require('path')
 
 const args = process.argv.slice(2)
@@ -9,7 +14,28 @@ const args = process.argv.slice(2)
 let mainWindow
 
 function createWindow() {
-	// Create the browser window.
+	const iconPath = path.resolve('./assets/icon.png')
+	function hideApp() {
+		appIcon = new Tray(iconPath)
+		function showWindow() {
+			mainWindow.show()
+			appIcon.destroy()
+		}
+	var contextMenu = Menu.buildFromTemplate([
+        {
+            label: 'Show App', click: showWindow
+        },
+        {
+            label: 'Quit', click: function () {
+                app.isQuiting = true
+                app.quit()
+            }
+        }
+    ])
+	  appIcon.setContextMenu(contextMenu)
+	  appIcon.on('click', ()=>showWindow())
+        mainWindow.hide()
+	}
 
 	// and load the index.html of the app.
 	if (args[0] == 'development') {
@@ -19,7 +45,8 @@ function createWindow() {
 			webPreferences: {
 				preload: path.join(__dirname, 'preload.js'),
 				nodeIntegration: true
-			}
+			},
+			icon: iconPath
 		})
 		mainWindow.loadURL('http://localhost:8080/index.html')
 		mainWindow.webContents.openDevTools()
@@ -30,11 +57,19 @@ function createWindow() {
 			webPreferences: {
 				preload: path.join(__dirname, 'preload.js'),
 				nodeIntegration: true
-			}
+			},
+			icon: iconPath
 		})
 		mainWindow.loadFile('dist/index.html')
 		// mainWindow.webContents.openDevTools()
 	}
+
+	mainWindow.on('close', function (e) {
+		if (!app.isQuiting) {
+			e.preventDefault()
+			hideApp()
+		}
+	})
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function () {
@@ -42,6 +77,15 @@ function createWindow() {
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		mainWindow = null
+	})
+
+	mainWindow.on('minimize', function (event) {
+		// event.preventDefault()
+		// hideApp()
+	})
+
+	mainWindow.on('show', function () {
+		// appIcon.setHighlightMode('always')
 	})
 }
 
