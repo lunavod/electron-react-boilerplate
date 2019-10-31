@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 
 import styles from './styles.css'
 import classNames from 'classnames'
-import {includes, map} from 'lodash'
+import {includes, map, noop} from 'lodash'
 import PropTypes from 'prop-types'
 import formatTime from '../../utils/TimeFormatter'
 import dateFormat from 'dateformat'
@@ -34,13 +34,32 @@ function Timer(props) {
 			props.setActive()
 		}
 	}
-	
+
+	let provided = props.provided || {innerRef: noop, draggableProps: {}, dragHandleProps: {}}
+	let enableDrag = props.enableDrag || noop
+	let disableDrag = props.disableDrag || noop
+
+	const onMouseDown = e => {
+		enableDrag()
+		console.log('Drag it!', e.target)
+	}
+
+
+	const onMouseUp = e => {
+		disableDrag()
+	}
+
 	return <div className={classNames({
 		[styles.timer]: true,
 		[styles.active]: includes(['active', 'triggered'], timer.status)
-	})}>
+	})}
+	ref={provided.innerRef}
+	{...provided.draggableProps}
+	{...provided.dragHandleProps}
+	>
 		<div className={styles.info}>
-			<div className={styles.action_wrapper} onClick={onActionClick}>
+			<div
+	 className={styles.action_wrapper} onClick={onActionClick} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
 				{timer.status == 'active' ? 
 					<FontAwesomeIcon icon={['fas', 'pause']} /> : <></>}
 				{timer.status == 'inactive' ? 
@@ -108,6 +127,7 @@ Timer.propTypes = {
 	addTrigger: PropTypes.func.isRequired,
 	removeTrigger: PropTypes.func.isRequired,
 	removeTimer: PropTypes.func.isRequired,
+	provided: PropTypes.object
 }
 
 export default Timer

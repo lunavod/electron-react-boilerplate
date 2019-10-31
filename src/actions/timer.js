@@ -72,6 +72,9 @@ export function addTimerTrigger(tree, timerName, trigger={path: '', regex: ''}) 
  * @param {string} timerName name of timer
  */
 export function removeTimer(tree, timerName) {
+	let order = Array.from(tree.select(['timers', 'order']).get())
+	order.splice(order.indexOf(timerName), 1)
+	tree.select(['timers', 'order']).set(order)
 	tree.select(['timers', 'allTimers']).unset(timerName)
 }
 
@@ -84,4 +87,19 @@ export function removeTimer(tree, timerName) {
 export function addTimer(tree, timerName) {
 	tree.select(['timers', 'allTimers'])
 		.set(timerName, {name: timerName, time: {}, time_total: 0, appTriggers: [], status: 'inactive'})
+	tree.select(['timers', 'order']).push(timerName)
+}
+
+/**
+ * Baobab action - adds timer
+ * 
+ * @param {object} tree Baobab tree
+ * @param {string} timerName name of timer
+ */
+export function reorderTimers(tree, startIndex, endIndex) {
+	let list = tree.select(['timers', 'order']).get()
+	const result = Array.from(list)
+	const [removed] = result.splice(startIndex, 1)
+	result.splice(endIndex, 0, removed)
+	tree.select(['timers', 'order']).set(result)
 }

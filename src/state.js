@@ -9,6 +9,7 @@ import registerStored from './utils/BaobabStored'
 
 const tree = new Baobab({
 	timers: {
+		order: ['Just test', 'Working'],
 		allTimers: {
 			'Working': {
 				name: 'Working',

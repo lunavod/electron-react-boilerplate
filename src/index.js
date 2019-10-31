@@ -32,6 +32,7 @@ let App = function() {
 	const Root = useRoot(tree)
 
 	return <Root >
+		{/* <DNDtest /> */}
 		<Timers />
 		<Statistics />
 	</Root>

@@ -15,8 +15,28 @@
 	font-weight: 300;
 }
 
+.toggle_reorder {
+	height: 32px;
+	width: 32px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	color: rgba(0,0,0,.2);
+	transition: color .2s;
+}
+
+.toggle_reorder:hover {
+	color: rgba(0,0,0,.5);
+}
+
+.toggle_reorder.active {
+	color: green;
+}
+
 .add_timer_wrapper {
 	display: flex;
+	margin-bottom: 8px;
 }
 
 .add_timer {

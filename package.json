@@ -16,7 +16,7 @@
   "prepush": "npm run lint",
   "eb:pack": "electron-builder --dir",
   "eb:dist": "electron-builder",
-  "release": "electron-builder",
+  "release": "npm run wp:dist && electron-builder",
   "dist": "npm-run-all wp:dist eb:dist",
   "pack": "npm-run-all wp:dist eb:pack",
   "postinstall": "electron-builder install-app-deps"
@@ -87,13 +87,13 @@
   "pify": "^4.0.1",
   "prop-types": "^15.7.2",
   "react": "^16.11.0",
+  "react-beautiful-dnd": "^12.0.0",
   "react-dom": "^16.11.0",
   "react-hot-loader": "^4.12.15",
   "windows-cursor-pos": "github:lunavod/windows-cursor-pos"
  },
  "build": {
   "appId": "com.lunavod.timer",
-
   "directories": {
    "output": "build"
   },
