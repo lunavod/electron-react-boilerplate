@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import styles from './styles.css'
 import {useBranch} from 'baobab-react/hooks'
 // import Logger from '../../utils/Logger'
-import {map} from 'lodash'
+import {map, forEach, includes} from 'lodash'
 import Timer from '../Timer/index.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -11,7 +11,7 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
 
 import {setTimerStatus, resetTimerTime, updateTimerTriggerPath,
 	updateTimerTriggerRegex, addTimerTrigger, removeTimerTrigger,
-	removeTimer, addTimer, reorderTimers} from '../../actions/timer'
+	removeTimer, addTimer, reorderTimers, renameTimer} from '../../actions/timer'
 import classNames from 'classnames'
 
 // import PropTypes from 'prop-types'
@@ -63,7 +63,18 @@ function Timers() {
 			result.destination.index)
 	}
 
-	if (data.order.length != order.length) {
+	const sameElements = (a, b) => {
+		if (a.length != b.length) return false
+		
+		let same = true
+		forEach(a, el => {
+			same = includes(b, el)
+		})
+
+		return same
+	}
+
+	if (!sameElements(data.order, order)) {
 		setOrder(data.order)
 	}
 
@@ -96,33 +107,34 @@ function Timers() {
 			<Droppable droppableId="timers_list">
 				{provided => (
 					<div ref={provided.innerRef}>
-						{map(order, (timer_name, index) => {
-							let timer = timers[timer_name]
-							return <Draggable isDragDisabled={!inReorderMode} draggableId={timer_name}
-								index={index} key={`${timer_name}_${index}`}>
+						{map(order, (timer_id, index) => {
+							let timer = timers[timer_id]
+							return <Draggable isDragDisabled={!inReorderMode} draggableId={timer_id}
+								index={index} key={`${timer.id}_${index}`}>
 								{provided => (
 									<Timer
 										provided={provided}
 										timer={timer}
-										key={`timer_${timer.name}`}
-										setActive={()=>dispatch(setTimerStatus, timer.name, 'active')}
-										setInactive={()=>dispatch(setTimerStatus, timer.name, 'inactive')}
-										reset={()=>dispatch(resetTimerTime, timer.name)}
+										key={`timer_${timer.id}`}
+										setActive={()=>dispatch(setTimerStatus, timer.id, 'active')}
+										setInactive={()=>dispatch(setTimerStatus, timer.id, 'inactive')}
+										reset={()=>dispatch(resetTimerTime, timer.id)}
 										updatePath={(e, index)=>{
 											e.preventDefault()
-											dispatch(updateTimerTriggerPath, timer.name, index, e.target.value)
+											dispatch(updateTimerTriggerPath, timer.id, index, e.target.value)
 										}}
 										updateRegex={(e, index)=>{
 											e.preventDefault()
-											dispatch(updateTimerTriggerRegex, timer.name, index, e.target.value)
+											dispatch(updateTimerTriggerRegex, timer.id, index, e.target.value)
 										}}
 										addTrigger={() => {
-											dispatch(addTimerTrigger, timer.name)
+											dispatch(addTimerTrigger, timer.id)
 										}}
 										removeTrigger={(index)=>{
-											dispatch(removeTimerTrigger, timer.name, index)
+											dispatch(removeTimerTrigger, timer.id, index)
 										}}
-										removeTimer={() => dispatch(removeTimer, timer.name)}
+										removeTimer={() => dispatch(removeTimer, timer.id)}
+										renameTimer={e => dispatch(renameTimer, timer.id, e.target.value)}
 									/>
 								)}
 							</Draggable>

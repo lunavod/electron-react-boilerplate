@@ -31,6 +31,12 @@
 	border-radius: 50%;
 }
 
+.title_input {
+	font-size: 1em;
+    font-family: "Rubik", sans-serif;
+    padding: 2px 4px;
+}
+
 .status {
 	font-style: italic;
 	color: rgba(0,0,0,.5);

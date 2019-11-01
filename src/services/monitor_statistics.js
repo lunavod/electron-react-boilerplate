@@ -70,10 +70,10 @@ export default async function monitorWindowAndCursor(tree) {
 
 				logger.log('timers', ['Stopping', timer, name])
 	
-				tree.select(['timers', 'allTimers', timer.name, 'status']).set('inactive')
-				tree.select(['timers', 'allTimers', timer.name, 'time', date])
+				tree.select(['timers', 'allTimers', timer.id, 'status']).set('inactive')
+				tree.select(['timers', 'allTimers', timer.id, 'time', date])
 					.set(timer.time[date] - (Date.now() - last_change))
-				tree.select(['timers', 'allTimers', timer.name, 'time_total'])
+				tree.select(['timers', 'allTimers', timer.id, 'time_total'])
 					.set(timer.time_total - (Date.now() - last_change))
 				// timer.time -= (Date.now() - last_change)
 				
@@ -99,12 +99,12 @@ export default async function monitorWindowAndCursor(tree) {
 
 			// If timer status is 'triggered', but it is not triggered by current app, it should be inactive
 			if (!triggered && timer.status == 'triggered') {
-				tree.select(['timers', 'allTimers', timer.name, 'status']).set('inactive')
+				tree.select(['timers', 'allTimers', timer.id, 'status']).set('inactive')
 				timers[name] = timer
 			}
 			if (!triggered) return
 
-			tree.select(['timers', 'allTimers', timer.name, 'status']).set('triggered')
+			tree.select(['timers', 'allTimers', timer.id, 'status']).set('triggered')
 
 			logger.log('timers', [timer, name])
 		})

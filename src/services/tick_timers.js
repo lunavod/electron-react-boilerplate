@@ -16,8 +16,8 @@ export default function tickTimers(tree) {
 		forEach(timers, timer => {
 			if (!includes(['active', 'triggered'], timer.status)) return
 
-			tree.select(['timers', 'allTimers', timer.name, 'time', date]).set((timer.time[date] || 0) + timeout)
-			tree.select(['timers', 'allTimers', timer.name, 'time_total']).set(timer.time_total + timeout)
+			tree.select(['timers', 'allTimers', timer.id, 'time', date]).set((timer.time[date] || 0) + timeout)
+			tree.select(['timers', 'allTimers', timer.id, 'time_total']).set(timer.time_total + timeout)
 		})
 	}, timeout)
 }

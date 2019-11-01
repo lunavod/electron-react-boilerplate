@@ -10,9 +10,6 @@ import { formatOfDate as format } from '../../utils/constants'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-
-// TODO: Changing timer's name
-
 /**
  * Timer react component
  * 
@@ -55,7 +52,14 @@ function Timer(props) {
 					<FontAwesomeIcon icon={['fas', 'hand-paper']} /> : <></>}
 			</div>
 			<div>
-				<div>{timer.name}<span className={styles.status}> - {timer.status}</span></div>
+				<div>
+					{settingsVisible?
+						<input type="text" value={timer.name} 
+							onChange={props.renameTimer} className={styles.title_input} />
+						:
+						timer.name}
+					<span className={styles.status}> - {timer.status}</span>
+				</div>
 				<div className={styles.time_info}>
 					<span className={styles.time}>{formatTime(timer.time[date], 'H:M:S')}</span>
 					&nbsp;сегодня, всего&nbsp;
@@ -114,6 +118,7 @@ Timer.propTypes = {
 	addTrigger: PropTypes.func.isRequired,
 	removeTrigger: PropTypes.func.isRequired,
 	removeTimer: PropTypes.func.isRequired,
+	renameTimer: PropTypes.func.isRequired,
 	provided: PropTypes.object
 }
 

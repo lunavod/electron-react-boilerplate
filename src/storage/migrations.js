@@ -1,4 +1,4 @@
-import {keys} from 'lodash'
+import {keys, forEach, includes} from 'lodash'
 
 const migrations = [
 	{
@@ -8,6 +8,31 @@ const migrations = [
 			let timers = tree.select(['timers', 'allTimers']).get()
 			let order = keys(timers)
 			tree.select(['timers']).set('order', order)
+		}
+	},
+	{
+		version: 2,
+		description: 'Change timer name to timer id',
+		up: (tree) => {
+			let timers = tree.select(['timers', 'allTimers']).get()
+			let order = tree.select(['timers', 'order']).get()
+
+			let newTimers = {}
+			let newOrder = Array.from(order)
+
+			let lastId = -1
+			forEach(keys(timers), timerName => {
+				lastId++
+				newTimers[lastId] = {
+					...timers[timerName],
+					id: lastId+''
+				}
+				if (includes(order, timerName)) {
+					newOrder[order.indexOf(timerName)] = lastId+''
+				}
+			})
+			tree.select(['timers', 'allTimers']).set(newTimers)
+			tree.select(['timers', 'order']).set(newOrder)
 		}
 	}
 ]

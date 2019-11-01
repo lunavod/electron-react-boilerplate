@@ -12,10 +12,11 @@ import migrations from './migrations'
 
 const tree = new Baobab({
 	timers: {
-		// order: ['Just test', 'Working'],
+		order: ['Working','Just test'],
 		allTimers: {
-			'Working': {
+			'0': {
 				name: 'Working',
+				id: 1,
 				time_total: 0,
 				time: {
 					[dateFormat(new Date(), format)]: 0
@@ -32,8 +33,9 @@ const tree = new Baobab({
 				]
 			},
 
-			'Just test': {
+			'1': {
 				name: 'Just test',
+				id: 2,
 				time: {
 				},
 				time_total: 0,
