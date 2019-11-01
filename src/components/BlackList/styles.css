@@ -1,0 +1,53 @@
+.main {
+	/* font-weight: bold; */
+	padding: 0 16px;
+	padding-bottom: 16px;
+	margin-top: 16px;
+}
+
+.item_wrapper {
+	display: flex;
+	align-items: center;
+	margin-top: 8px;
+}
+
+.item_input {
+	width: 100%;
+	padding: 4px 8px;
+	font-size: .9em;
+	font-family: 'Rubik', sans-serif;
+}
+
+.remove_item {
+	width: 28px;
+	height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #ff7675;
+	margin-left: 16px;
+	cursor: pointer;
+}
+
+.add_item {
+	font-size: .9em;
+	color: green;
+	margin-top: 8px;
+	cursor: pointer;
+}
+
+.title {
+	font-size: .9em;
+	cursor: pointer;
+}
+
+.title svg {
+	font-size: .9em;
+	margin-right: 8px;
+	margin-bottom: 1px;
+	transition: transform .2s;
+}
+
+.title.active svg {
+	transform: rotate(90deg);
+}

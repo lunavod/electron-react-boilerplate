@@ -1,7 +1,7 @@
 import Baobab from 'baobab'
 const monkey = Baobab.monkey
 
-import {forEach, keys} from 'lodash'
+import {forEach, keys, noop} from 'lodash'
 import dateFormat from 'dateformat'
 import {formatOfDate as format} from '../utils/constants'
 
@@ -10,7 +10,7 @@ import registerStored from '../utils/BaobabStored'
 import setUpMigrations from '../utils/BaobabMigrations'
 import migrations from './migrations'
 
-const tree = new Baobab({
+const initialData = {
 	timers: {
 		order: ['Working','Just test'],
 		allTimers: {
@@ -44,25 +44,40 @@ const tree = new Baobab({
 			}
 		}
 	},
+
 	statistics: {
 		
 	},
 	statistics_today: monkey({
 		cursors: {
-			statistics: ['statistics']
+			statistics: ['statistics'],
+			blackList: ['blackList']
 		},
-		get: function(data) {
+		get: function({statistics, blackList}) {
 			let today = {}
-			forEach(keys(data.statistics), (key) => {
-				let obj = data.statistics[key]
+			forEach(keys(statistics), (key) => {
+				let obj = statistics[key]
+				let ignore = false
+				forEach(blackList, regex => {
+					if (!regex) return
+					try {
+						regex = new RegExp(regex)
+						if (obj.path.match(regex)) ignore = true
+					} catch(e) {noop()}
+					// console.log(regex, obj.path)
+				})
+				if (ignore) return
 				if (obj.time[dateFormat(new Date(), 'dd.mm.yyyy')]) {
 					today[key] = obj
 				}
 			})
 			return today
 		}
-	})
-})
+	}),
+	blackList: ['C:\\\\Windows\\\\SystemApps']
+}
+
+const tree = new Baobab(initialData)
 
 const stored = [
 	{
@@ -72,11 +87,21 @@ const stored = [
 	{
 		path: ['timers'],
 		name: 'timers'
+	},
+	{
+		path: ['blackList'],
+		name: 'blackList'
 	}
 ]
 
 registerStored(stored, tree)
 setUpMigrations(tree, migrations)
+
+window.resetStoredItem = (type) => {
+	localStorage.removeItem(`__stored_${type}`)
+	location.reload()
+}
+
 
 window.tree = tree
 

@@ -1,6 +1,6 @@
 {
  "name": "Timer",
- "version": "1.2.3",
+ "version": "1.2.4",
  "description": "Time management, yay!",
  "main": "app/main.js",
  "scripts": {
