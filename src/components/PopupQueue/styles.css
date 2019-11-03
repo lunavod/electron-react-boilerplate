@@ -1,0 +1,8 @@
+.main {
+	height: auto;
+	width: 300px;
+	position: fixed;
+	bottom: 16px;
+	right: 32px;
+	display: inline-flex;
+}

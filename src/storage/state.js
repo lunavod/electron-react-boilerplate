@@ -74,7 +74,12 @@ const initialData = {
 			return today
 		}
 	}),
-	blackList: ['C:\\\\Windows\\\\SystemApps']
+	blackList: ['C:\\\\Windows\\\\SystemApps'],
+	popupQueue: {
+		lastId: 0,
+		popups: [
+		]
+	},
 }
 
 const tree = new Baobab(initialData)
@@ -91,7 +96,7 @@ const stored = [
 	{
 		path: ['blackList'],
 		name: 'blackList'
-	}
+	},
 ]
 
 registerStored(stored, tree)
@@ -100,6 +105,12 @@ setUpMigrations(tree, migrations)
 window.resetStoredItem = (type) => {
 	localStorage.removeItem(`__stored_${type}`)
 	location.reload()
+}
+
+import {addPopup} from '../actions/popups'
+
+window.addPopup = () => {
+	addPopup(tree, {type: 'message', title: 'Pushed!', message: 'Hiiii!'})
 }
 
 

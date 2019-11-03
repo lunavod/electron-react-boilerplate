@@ -4,6 +4,7 @@ import Statistics from './components/Statistics/index.jsx'
 import Timers from './components/Timers/index.jsx'
 import AppFrame from './components/AppFrame/index.jsx'
 import BlackList from './components/BlackList/index.jsx'
+import PopupQueue from './components/PopupQueue/index.jsx'
 
 import {useRoot} from 'baobab-react/hooks'
 import {hot} from 'react-hot-loader/root'
@@ -39,6 +40,7 @@ let App = function() {
 			<Timers />
 			<Statistics />
 			<BlackList />
+			<PopupQueue />
 		</div>
 	</Root>
 }

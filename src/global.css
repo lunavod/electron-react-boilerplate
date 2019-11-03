@@ -18,4 +18,5 @@
 	height: calc(100vh - 28px);
 	min-height: calc(100vh - 28px);
 	overflow-x: auto;
+	position: relative;
 }
