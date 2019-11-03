@@ -51,6 +51,9 @@ module.exports = {
 			filename: '[name].css',
 			chunkFilename: '[id].css',
 			ignoreOrder: false,
+		}),
+		new webpack.DefinePlugin({
+			'isDev': false
 		})
 	],
 

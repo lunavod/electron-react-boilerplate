@@ -11,6 +11,8 @@ import styles from './styles.css'
  * AppFrame react component
  */
 function AppFrame() {
+	document.title = `Таймер ${isDev? '[dev]' : ''}`
+
 	let [isMaximized, setIsMaximized] = useState(ipcRenderer.sendSync('is-maximized'))
 
 	const onMinimize = () => {
@@ -32,7 +34,7 @@ function AppFrame() {
 	}
 	
 	return <div className={styles.main}>
-		<div className={styles.title}>Timer v{global.require('electron').remote.app.getVersion()}</div>
+		<div className={styles.title}>Таймер v{global.require('electron').remote.app.getVersion()} {isDev? '[dev]' : ''}</div>
 		<div className={styles.actions}>
 			<div onClick={onMinimize}>
 				<FontAwesomeIcon icon={['far', 'window-minimize']} />
