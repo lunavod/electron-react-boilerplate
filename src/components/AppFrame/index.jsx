@@ -34,7 +34,9 @@ function AppFrame() {
 	}
 	
 	return <div className={styles.main}>
-		<div className={styles.title}>Таймер v{global.require('electron').remote.app.getVersion()} {isDev? '[dev]' : ''}</div>
+		<div className={styles.title}>
+			Таймер v{global.require('electron').remote.app.getVersion()} {isDev? '[dev]' : ''}
+		</div>
 		<div className={styles.actions}>
 			<div onClick={onMinimize}>
 				<FontAwesomeIcon icon={['far', 'window-minimize']} />
