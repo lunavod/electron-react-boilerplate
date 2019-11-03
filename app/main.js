@@ -22,16 +22,26 @@ const args = process.argv.slice(2)
 let mainWindow
 
 function createWindow() {
-	autoUpdater.on('checking-for-update', () => {
-		netLog.startLogging('netlog.txt')
-	})
-	autoUpdater.on('error', () => {
-		netLog.stopLogging()
-	})
-	autoUpdater.on('update-downloaded', () => {
-		autoUpdater.quitAndInstall()
+	ipcMain.on('ready-for-updates', (event) => {
+		autoUpdater.once('update-available', () => {
+			event.sender.send('update-available')
+		}) 
+		autoUpdater.once('update-downloaded', () => {
+			event.sender.send('update-downloaded')
+			event.sender.send('download-progress', 100)
+		}) 
+
+		autoUpdater.on('download-progress', (p_event) => {
+			console.log(event)
+			event.sender.send('download-progress', p_event.percent)
+		}) 
+
+		autoUpdater.checkForUpdates()
 	}) 
-	autoUpdater.checkForUpdates()
+
+	ipcMain.on('quit-and-install', () => {
+		autoUpdater.quitAndInstall()
+	})
 
 	let iconPath = path.resolve(require('path').dirname(process.execPath)+'/assets/icon.png')
 	if (!fs.existsSync(iconPath)) {

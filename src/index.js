@@ -15,6 +15,9 @@ import tree from './storage/state'
 import monitorStatistics from './services/monitor_statistics'
 import tickTimers from './services/tick_timers'
 
+const {ipcRenderer} = global.require('electron')
+import {addPopup} from './actions/popups'
+
 import './utils/fa-library'
 
 ;(async () => {
@@ -31,8 +34,14 @@ import './utils/fa-library'
 	}
 })()
 
+ipcRenderer.once('update-available', () => {
+	addPopup(tree, {type: 'updater'})
+})
+
 let App = function() {
 	const Root = useRoot(tree)
+
+	ipcRenderer.send('ready-for-updates')
 
 	return <Root >
 		<AppFrame />

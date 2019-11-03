@@ -4,6 +4,8 @@ import styles from './styles.css'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import UpdaterContent from './contents/UpdaterContent/index.jsx'
+
 
 /**
  * Popup react component
@@ -22,13 +24,25 @@ function Popup(props) {
 
 	setTimeout(()=> {if (!closed){setHidden(false)}}, 100)
 
+	let content = ''
+
+	switch(popup.type) { // eslint-disable-line sonarjs/no-small-switch
+	case 'updater':
+		content = <UpdaterContent removeFromQueue={props.removeFromQueue} />
+		break
+	default:
+		content = <>
+			{popup.title? <div className={styles.title}>{popup.title}</div> : <></>}
+			{popup.message}
+		</>
+	}
+
 	return <div className={classNames({
 		[styles.main]: true,
 		[styles.hidden]: hidden,
 		[styles.closed]: closed
 	})} onClick={close}>
-		{popup.title? <div className={styles.title}>{popup.title}</div> : <></>}
-		{popup.message}
+		{content}
 	</div>
 }
 

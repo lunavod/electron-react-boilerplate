@@ -3,6 +3,7 @@ import React from 'react'
 import {useBranch} from 'baobab-react/hooks'
 import {shiftPopup} from '../../actions/popups'
 
+
 import styles from './styles.css'
 
 import Popup from './Popup/index.jsx'
@@ -14,7 +15,7 @@ import Popup from './Popup/index.jsx'
  */
 function PopupQueue() {
 	let {queue, dispatch} = useBranch({queue: ['popupQueue']})
-
+	
 	if (!queue.popups.length) return <></>
 
 	let popup = queue.popups[0]

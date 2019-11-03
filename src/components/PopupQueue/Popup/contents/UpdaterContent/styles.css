@@ -1,0 +1,48 @@
+.title {
+	font-weight: 400;
+}
+
+.progress_wrapper {
+	height: 8px;
+	border-radius: 8px;
+	overflow: hidden;
+	position: relative;
+	background: lightgreen;
+	margin-top: 8px;
+}
+
+.progress {
+	height: 100%;
+	border-radius: 8px;
+	background: green;
+	transition: width .2s;
+}
+
+.decline, .accept {
+	padding: 6px 12px;
+    border: none;
+    background: none;
+    margin-right: 8px;
+    /* border-radius: 5px; */
+    font-size: 1em;
+    font-family: 'Rubik', sans-serif;
+	margin-top: 8px;
+	cursor: pointer;
+	transition: box-shadow .3s;
+}
+
+.accept {
+	background: #5cabe86e;
+    color: #094777;
+    border: 1px solid #0984e3;
+}
+
+.decline {
+	background: rgba(0,0,0,.1);
+	border: 1px solid #13314852;
+	color: #364c5d;
+}
+
+.decline:hover, .accept:hover {
+	box-shadow: 0px 2px 8px 1px #12436945;
+}
