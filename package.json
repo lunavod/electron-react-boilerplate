@@ -16,7 +16,7 @@
   "prepush": "npm run lint",
   "eb:pack": "electron-builder --dir",
   "eb:dist": "electron-builder",
-  "release": "npm run wp:dist && electron-builder",
+  "release": "npm run wp:dist && electron-builder -c.snap.publish=github",
   "dist": "npm-run-all wp:dist eb:dist",
   "pack": "npm-run-all wp:dist eb:pack",
   "postinstall": "electron-builder install-app-deps"

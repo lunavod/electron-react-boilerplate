@@ -4,3 +4,4 @@ build
 .idea
 .vscode
 netLog.txt
+electron-builder.env
