@@ -1,6 +1,6 @@
 {
  "name": "Timer",
- "version": "1.3.0",
+ "version": "1.3.1",
  "description": "Time management, yay!",
  "main": "app/main.js",
  "scripts": {
@@ -80,6 +80,7 @@
   "baobab": "^2.5.2",
   "baobab-react": "^4.0.0",
   "classnames": "^2.2.6",
+  "cursor-pos": "github:lunavod/cursor-pos",
   "dateformat": "^3.0.3",
   "electron-fetch": "^1.3.0",
   "electron-updater": "^4.2.0",
@@ -89,8 +90,7 @@
   "react": "^16.11.0",
   "react-beautiful-dnd": "^12.0.0",
   "react-dom": "^16.11.0",
-  "react-hot-loader": "^4.12.15",
-  "windows-cursor-pos": "github:lunavod/windows-cursor-pos"
+  "react-hot-loader": "^4.12.15"
  },
  "build": {
   "appId": "com.lunavod.timer",

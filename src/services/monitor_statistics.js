@@ -1,5 +1,5 @@
 const activeWin = global.require('active-win')
-const getCursorPos = global.require('windows-cursor-pos')
+const getCursorPos = global.require('cursor-pos')
 
 import {forEach, clone} from 'lodash'
 import Logger from '../utils/Logger'
@@ -11,7 +11,9 @@ let logger = new Logger({
 	tree: false,
 	timer: false,
 	cur_win: false,
-	timers: false
+	timers: false,
+	cursor_moved: false,
+	win_changed: true,
 })
 
 let timerId = 0
@@ -52,6 +54,9 @@ export default async function monitorWindowAndCursor(tree) {
 			pos = cur_pos
 			isStopped = false
 		}
+
+		if (cursor_moved) logger.log('cursor_moved', [pos])
+		if (win_changed) logger.log('win_changed', [cur_win])
 
 		if (isStopped) return
 
