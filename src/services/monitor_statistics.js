@@ -13,7 +13,7 @@ let logger = new Logger({
 	cur_win: false,
 	timers: false,
 	cursor_moved: false,
-	win_changed: true,
+	win_changed: false,
 })
 
 let timerId = 0

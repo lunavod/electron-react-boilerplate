@@ -12,7 +12,7 @@ import migrations from './migrations'
 
 const initialData = {
 	timers: {
-		order: ['Working','Just test'],
+		order: ['0','1'],
 		allTimers: {
 			'0': {
 				name: 'Working',
