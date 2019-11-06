@@ -12,7 +12,7 @@ export function addTimer(tree, name) {
 		id = parseInt(id),
 		max = max>id? max : id
 	})
-	let newId = max+1
+	let newId = max+1+''
 	tree.select(['timers', 'allTimers'])
 		.set(newId, {name: name, id: newId, time: {}, time_total: 0, appTriggers: [], status: 'inactive'})
 	tree.select(['timers', 'order']).push(newId)
