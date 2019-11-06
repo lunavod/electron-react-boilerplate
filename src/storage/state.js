@@ -1,7 +1,7 @@
 import Baobab from 'baobab'
 const monkey = Baobab.monkey
 
-import {forEach, keys, noop} from 'lodash'
+import {forEach, keys, noop, uniq} from 'lodash'
 import dateFormat from 'dateformat'
 import {formatOfDate as format} from '../utils/constants'
 
@@ -46,16 +46,21 @@ const initialData = {
 	},
 
 	statistics: {
-		
+		'Code': {
+			'time': {
+				'06.06.2019': 200000
+			},
+			'path': String.raw`/usr/share/code/code`
+		}
 	},
-	statistics_today: monkey({
+	statistics_day: null,
+	statistics_days: monkey({
 		cursors: {
 			statistics: ['statistics'],
 			blackList: ['blackList']
-		},
-		get: function({statistics, blackList}) {
-			let today = {}
-			forEach(keys(statistics), (key) => {
+		}, get: function({statistics, blackList}) {
+			let days = []
+			forEach(keys(statistics), key => {
 				let obj = statistics[key]
 				let ignore = false
 				forEach(blackList, regex => {
@@ -67,11 +72,9 @@ const initialData = {
 					// console.log(regex, obj.path)
 				})
 				if (ignore) return
-				if (obj.time[dateFormat(new Date(), 'dd.mm.yyyy')]) {
-					today[key] = obj
-				}
+				days = uniq([...days, ...keys(obj.time)]).sort()
 			})
-			return today
+			return days
 		}
 	}),
 	blackList: ['C:\\\\Windows\\\\SystemApps'],
