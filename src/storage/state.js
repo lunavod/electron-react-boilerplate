@@ -46,12 +46,7 @@ const initialData = {
 	},
 
 	statistics: {
-		'Code': {
-			'time': {
-				'06.06.2019': 200000
-			},
-			'path': String.raw`/usr/share/code/code`
-		}
+		
 	},
 	statistics_day: null,
 	statistics_days: monkey({
