@@ -39,7 +39,7 @@ export default function Select(props) {
 		</div>
 		<div className={styles.options}>
 			{map(props.options, (option, index) => {
-				return <div className={styles.option} onClick={()=>select(index)}>{option.name}</div>
+				return <div className={styles.option} key={option.value} onClick={()=>select(index)}>{option.name}</div>
 			})}
 		</div>
 	</div>
