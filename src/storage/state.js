@@ -1,7 +1,7 @@
 import Baobab from 'baobab'
 const monkey = Baobab.monkey
 
-import {forEach, keys, noop, uniq} from 'lodash'
+import {forEach, keys, noop, uniq, split} from 'lodash'
 import dateFormat from 'dateformat'
 import {formatOfDate as format} from '../utils/constants'
 
@@ -67,7 +67,15 @@ const initialData = {
 					// console.log(regex, obj.path)
 				})
 				if (ignore) return
-				days = uniq([...days, ...keys(obj.time)]).sort()
+				function parseDate(str) {
+					let d = new Date()
+					let a = split(str, '.')
+					d.setDate(a[0])
+					d.setMonth(parseInt(a[1]-1))
+					d.setFullYear(a[2])
+					return d
+				}
+				days = uniq([...days, ...keys(obj.time)]).sort((a,b)=>(parseDate(a)-parseDate(b)))
 			})
 			return days
 		}
