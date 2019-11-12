@@ -1,6 +1,6 @@
 {
- "name": "Timer",
- "version": "1.3.3",
+ "name": "TimerDEV",
+ "version": "1.3.4",
  "description": "Time management, yay!",
  "main": "app/main.js",
  "scripts": {
@@ -16,9 +16,9 @@
   "prepush": "npm run lint",
   "eb:pack": "electron-builder --dir",
   "eb:dist": "electron-builder",
-  "release": "npm run wp:dist && electron-builder -c.snap.publish=github",
-  "dist": "npm-run-all wp:dist eb:dist",
-  "pack": "npm-run-all wp:dist eb:pack",
+  "release": "node build_hooks.js pre && npm run wp:dist && electron-builder -c.snap.publish=github && node build_hooks.js post",
+  "dist": "node build_hooks.js pre && npm-run-all wp:dist eb:dist && node build_hooks.js post",
+  "pack": "node build_hooks.js pre && npm-run-all wp:dist eb:pack && node build_hooks.js post",
   "postinstall": "electron-builder install-app-deps"
  },
  "repository": "https://github.com/lunavod/timer",
