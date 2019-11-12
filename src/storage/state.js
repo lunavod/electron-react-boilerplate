@@ -111,6 +111,14 @@ window.addPopup = () => {
 	addPopup(tree, {type: 'message', title: 'Pushed!', message: 'Hiiii!'})
 }
 
+if (window.registerBaobabStore) {
+	window.registerBaobabStore(tree, 'Store')
+} else {
+	document.addEventListener('baobabExtensionReady', () => {
+		window.registerBaobabStore(tree, 'Store')
+	})
+}
+
 
 window.tree = tree
 

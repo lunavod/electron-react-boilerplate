@@ -85,6 +85,16 @@ function createWindow() {
 			icon: iconPath,
 			frame: false,
 		})
+
+		BrowserWindow.removeDevToolsExtension('Baobab Devtools')
+
+		if (args[1]) {
+			console.log('baobab-devtools')
+			BrowserWindow.addDevToolsExtension(
+				path.resolve(args[1])
+			)
+		}
+
 		mainWindow.loadURL('http://localhost:8080/index.html')
 		mainWindow.webContents.openDevTools()
 	} else {
