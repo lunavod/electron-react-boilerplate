@@ -43,6 +43,14 @@ function getStatisticsByDate(statistics, blackList, date) {
 	return data
 }
 
+function getAppTotalTime(app_statistics) {
+	let total = 0
+	forEach(app_statistics.time, day_time => {
+		total += day_time
+	})
+	return total
+}
+
 /**
  * Statistics react component
  */
@@ -115,6 +123,9 @@ function Statistics() {
 					onClick={()=>{clipboard.writeText(data[app].path)}}>
 					<span className={styles.app_title}>{capitalize(replace(app, '.exe', ''))}</span>
 					<span className={styles.app_info}>{totalPercent}% - {formatTime(data[app].time[date])}</span>
+					<span className={styles.total_time}>
+						{formatTime(getAppTotalTime(statistics[app]), 'H:M:S')} всего
+					</span>
 				</div>
 			})}
 		</div>
