@@ -27,11 +27,30 @@ export default function Select(props) {
 			props.onChange(props.options[index].value)
 	}
 
+	const ref = (el) => {
+		if (!el) return
+		const onClick = (e) => {
+			if (!isActive) {
+				document.removeEventListener('click', onClick)
+				return
+			}
+			let isIn = false
+			let target = e.target
+			while (target.parentElement) {
+				if (target == el) isIn = true
+				target = target.parentElement
+			}
+			if (isActive && !isIn) setIsActive(false)
+			document.removeEventListener('click', onClick)
+		}
+		document.addEventListener('click', onClick)
+	}
+
 	return <div className={classNames({
 		[styles.wrapper]: true,
 		[styles.active]: isActive
-	})}>
-		<div className={styles.select} onClick={()=>setIsActive(true)}>
+	})} ref={ref}>
+		<div className={styles.select} onClick={()=>setIsActive(!isActive)}>
 			<span>{props.options[selected].name}</span>
 			<div className={styles.chevron}>
 				<FontAwesomeIcon icon={['fas', 'caret-left']} />
