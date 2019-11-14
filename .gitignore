@@ -6,3 +6,4 @@ build
 netLog.txt
 electron-builder.env
 package-lock.json
+app/package-lock.json
