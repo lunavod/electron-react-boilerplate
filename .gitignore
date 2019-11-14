@@ -5,3 +5,4 @@ build
 .vscode
 netLog.txt
 electron-builder.env
+package-lock.json
