@@ -14,7 +14,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: node_modules
-        key: ${{ runner.os }}-node_modules
+        key: ${{ matrix.os }}-node_modules
     - name: npm i
       if: steps.cache-node_modules.outputs.cache-hit != 'true'
       run: npm i
@@ -23,4 +23,4 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
