@@ -1,16 +1,9 @@
 // Modules to control application life and create native browser window
-const {
-	app,
-	BrowserWindow,
-	Menu,
-	Tray,
-	netLog,
-	ipcMain
-} = require('electron')
+const { app, BrowserWindow, Menu, Tray, netLog, ipcMain } = require('electron')
 
-const { autoUpdater } = require("electron-updater")
-autoUpdater.logger = require("electron-log")
-autoUpdater.logger.transports.file.level = "debug"
+const { autoUpdater } = require('electron-updater')
+autoUpdater.logger = require('electron-log')
+autoUpdater.logger.transports.file.level = 'debug'
 
 const path = require('path')
 const fs = require('fs')
@@ -22,28 +15,32 @@ const args = process.argv.slice(2)
 let mainWindow
 
 function createWindow() {
-	ipcMain.on('ready-for-updates', (event) => {
+	ipcMain.on('ready-for-updates', event => {
 		autoUpdater.once('update-available', () => {
 			event.sender.send('update-available')
-		}) 
+		})
 		autoUpdater.once('update-downloaded', () => {
 			event.sender.send('update-downloaded')
 			event.sender.send('download-progress', 100)
-		}) 
+		})
 
-		autoUpdater.on('download-progress', (p_event) => {
+		autoUpdater.on('download-progress', p_event => {
 			console.log(event)
 			event.sender.send('download-progress', p_event.percent)
-		}) 
+		})
 
 		autoUpdater.checkForUpdates()
-	}) 
+
+		setInterval(() => autoUpdater.checkForUpdates(), 1000 * 60 * 5)
+	})
 
 	ipcMain.on('quit-and-install', () => {
 		autoUpdater.quitAndInstall()
 	})
 
-	let iconPath = path.resolve(require('path').dirname(process.execPath)+'/assets/icon.png')
+	let iconPath = path.resolve(
+		require('path').dirname(process.execPath) + '/assets/icon.png'
+	)
 	if (!fs.existsSync(iconPath)) {
 		iconPath = path.resolve('app/icon.png')
 	}
@@ -57,20 +54,22 @@ function createWindow() {
 			mainWindow.show()
 			appIcon.destroy()
 		}
-	var contextMenu = Menu.buildFromTemplate([
-        {
-            label: 'Show App', click: showWindow
-        },
-        {
-            label: 'Quit', click: function () {
-                app.isQuiting = true
-                app.quit()
-            }
-        }
-    ])
-	  appIcon.setContextMenu(contextMenu)
-	  appIcon.on('click', ()=>showWindow())
-        mainWindow.hide()
+		var contextMenu = Menu.buildFromTemplate([
+			{
+				label: 'Show App',
+				click: showWindow
+			},
+			{
+				label: 'Quit',
+				click: function() {
+					app.isQuiting = true
+					app.quit()
+				}
+			}
+		])
+		appIcon.setContextMenu(contextMenu)
+		appIcon.on('click', () => showWindow())
+		mainWindow.hide()
 	}
 
 	// and load the index.html of the app.
@@ -83,16 +82,14 @@ function createWindow() {
 				nodeIntegration: true
 			},
 			icon: iconPath,
-			frame: false,
+			frame: false
 		})
 
 		BrowserWindow.removeDevToolsExtension('Baobab Devtools')
 
 		if (args[1]) {
 			console.log('baobab-devtools')
-			BrowserWindow.addDevToolsExtension(
-				path.resolve(args[1])
-			)
+			BrowserWindow.addDevToolsExtension(path.resolve(args[1]))
 		}
 
 		mainWindow.loadURL('http://localhost:8080/index.html')
@@ -106,13 +103,13 @@ function createWindow() {
 				nodeIntegration: true
 			},
 			icon: iconPath,
-			frame: false,
+			frame: false
 		})
 		mainWindow.loadFile('dist/index.html')
 		// mainWindow.webContents.openDevTools()
 	}
 
-	mainWindow.on('close', function (e) {
+	mainWindow.on('close', function(e) {
 		// if (!app.isQuiting) {
 		// 	e.preventDefault()
 		// 	hideApp()
@@ -120,14 +117,14 @@ function createWindow() {
 	})
 
 	// Emitted when the window is closed.
-	mainWindow.on('closed', function () {
+	mainWindow.on('closed', function() {
 		// Dereference the window object, usually you would store windows
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		mainWindow = null
 	})
 
-	mainWindow.on('minimize', function (event) {
+	mainWindow.on('minimize', function(event) {
 		// event.preventDefault()
 		// hideApp()
 	})
@@ -148,32 +145,32 @@ function createWindow() {
 		hideApp()
 	})
 
-	ipcMain.on('is-maximized', (event) => {
+	ipcMain.on('is-maximized', event => {
 		event.returnValue = mainWindow.isMaximized
 	})
 }
 
 function enableAutoLaunch() {
-	const AutoLaunch = require('auto-launch');
+	const AutoLaunch = require('auto-launch')
 	const appAutoLauncher = new AutoLaunch({
-		name: 'Timer',
-	});
-	 
-	appAutoLauncher.enable();
-	 
-	//minecraftAutoLauncher.disable();
-	 
-	 
-	appAutoLauncher.isEnabled()
-	.then(function(isEnabled){
-		if(isEnabled){
-			return;
-		}
-		appAutoLauncher.enable();
+		name: 'Timer'
 	})
-	.catch(function(err){
-		// handle error
-	});
+
+	appAutoLauncher.enable()
+
+	//minecraftAutoLauncher.disable();
+
+	appAutoLauncher
+		.isEnabled()
+		.then(function(isEnabled) {
+			if (isEnabled) {
+				return
+			}
+			appAutoLauncher.enable()
+		})
+		.catch(function(err) {
+			// handle error
+		})
 }
 
 // This method will be called when Electron has finished
@@ -185,13 +182,13 @@ if (args[0] != 'development') {
 }
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function () {
+app.on('window-all-closed', function() {
 	// On macOS it is common for applications and their menu bar
 	// to stay active until the user quits explicitly with Cmd + Q
 	if (process.platform !== 'darwin') app.quit()
 })
 
-app.on('activate', function () {
+app.on('activate', function() {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (mainWindow === null) createWindow()
