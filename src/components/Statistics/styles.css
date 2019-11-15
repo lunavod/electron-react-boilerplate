@@ -33,7 +33,8 @@
 }
 
 .app {
-	background: linear-gradient(90deg, rgb(149, 175, 192, .2) 0,rgb(149, 175, 192, .6) 60%, rgb(149, 175, 192, .8) 100%);
+	/* background: linear-gradient(90deg, rgb(149, 175, 192, .2) 0,rgb(149, 175, 192, .6) 60%, rgb(149, 175, 192, .8) 100%); */
+	background: #dfe6e9;
 	transition: width .2s;
 	margin-bottom: 8px;
 	min-width: 250px;
@@ -43,17 +44,21 @@
 }
 
 .app:nth-child(1) {
-	background: linear-gradient(90deg, rgb(249, 202, 36, .3) 0,rgb(249, 202, 36, .6) 60%, rgb(249, 202, 36) 100%);
+	/* background: linear-gradient(90deg, rgb(249, 202, 36, .3) 0,rgb(249, 202, 36, .6) 60%, rgb(249, 202, 36) 100%); */
+	background: #ffeaa7;
 	min-width: 280px;
 }
 
+
 .app:nth-child(2) {
-	background: linear-gradient(90deg, rgb(186, 220, 88, .3) 0,rgb(186, 220, 88, .6) 60%, rgb(186, 220, 88) 100%);
+	/* background: linear-gradient(90deg, rgb(186, 220, 88, .3) 0,rgb(186, 220, 88, .6) 60%, rgb(186, 220, 88) 100%); */
+	background: #00cec9;
 	min-width: 270px;
 }
 
 .app:nth-child(3) {
-	background: linear-gradient(90deg, rgb(126, 214, 223, .3) 0,rgb(126, 214, 223, .6) 60%, rgb(126, 214, 223) 100%);
+	/* background: linear-gradient(90deg, rgb(126, 214, 223, .3) 0,rgb(126, 214, 223, .6) 60%, rgb(126, 214, 223) 100%); */
+	background: #74b9ff;
 	min-width: 260px;
 }
 
@@ -66,7 +71,7 @@
 }
 
 .app_title {
-
+	/* color: white; */
 }
 
 .app_info {

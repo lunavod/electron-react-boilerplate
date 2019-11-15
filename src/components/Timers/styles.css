@@ -46,11 +46,11 @@
 
 .add_timer_button {
 	display: flex;
-	background: rgb(0, 206, 201);
+	background: #00b894;
 	color: white;
 	width: 48px;
 	border-radius: 5px;
-	height: 28px;
+	height: 42px;
 	justify-content: center;
 	align-items: center;
 	margin-left: 8px;
