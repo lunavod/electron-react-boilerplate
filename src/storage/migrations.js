@@ -1,10 +1,10 @@
-import {keys, forEach, includes} from 'lodash'
+import { keys, forEach, includes } from 'lodash'
 
 const migrations = [
 	{
 		version: 1,
 		description: 'Set up timers order',
-		up: (tree) => {
+		up: tree => {
 			let timers = tree.select(['timers', 'allTimers']).get()
 			let order = keys(timers)
 			tree.select(['timers']).set('order', order)
@@ -13,7 +13,7 @@ const migrations = [
 	{
 		version: 2,
 		description: 'Change timer name to timer id',
-		up: (tree) => {
+		up: tree => {
 			let timers = tree.select(['timers', 'allTimers']).get()
 			let order = tree.select(['timers', 'order']).get()
 
@@ -25,14 +25,25 @@ const migrations = [
 				lastId++
 				newTimers[lastId] = {
 					...timers[timerName],
-					id: lastId+''
+					id: lastId + ''
 				}
 				if (includes(order, timerName)) {
-					newOrder[order.indexOf(timerName)] = lastId+''
+					newOrder[order.indexOf(timerName)] = lastId + ''
 				}
 			})
 			tree.select(['timers', 'allTimers']).set(newTimers)
 			tree.select(['timers', 'order']).set(newOrder)
+		}
+	},
+	{
+		version: 3,
+		description: 'Set up timers order',
+		up: tree => {
+			let statistics = tree.select(['statistics']).get()
+			forEach(keys(statistics), name => {
+				if (!tree.select(['statistics', name, 'timeline']).get())
+					tree.select(['statistics', name]).set('timeline', {})
+			})
 		}
 	}
 ]

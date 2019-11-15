@@ -110,7 +110,7 @@ export default async function monitorWindowAndCursor(tree) {
 				},
 				path: win.path
 			})
-		} else if (!data[win.app].time[date]) {
+		} else if (!data[win.app].time[date] || !data[win.app].timeline[date]) {
 			tree.select(['statistics', win.app, 'time']).set(date, timeout)
 			tree
 				.select(['statistics', win.app, 'timeline'])
