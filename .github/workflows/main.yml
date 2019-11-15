@@ -15,8 +15,14 @@ jobs:
       with:
         path: node_modules
         key: ${{ runner.os }}-node_modules
+    - name: Cache package-lock
+      id: cache-package-lock
+      uses: actions/cache@v1
+      with:
+        path: package-lock.json
+        key: ${{ runner.os }}-package-lock
     - name: npm i
-      if: steps.cache-node_modules.outputs.cache-hit != 'true'
+      if: steps.cache-node_modules.outputs.cache-hit != 'true' || steps.cache-package-lock.outputs.cache-hit != 'true'
       run: npm i
     - name: Release
       run: npm run release
