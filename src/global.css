@@ -19,4 +19,34 @@
 	min-height: calc(100vh - 28px);
 	overflow-x: auto;
 	position: relative;
+	border-radius: 8px;
+	background: white;
+	margin-top: -16px;
+	box-shadow: 0 0 4px 0px rgba(0,0,0,.3);
+}
+
+::-webkit-scrollbar {
+    height: 14px;
+    width: 16px;
+    background: #148e7640;
+    border-radius: 1ex;
+    border: 5px solid white;
+}
+
+::-webkit-scrollbar-thumb {
+    width: 8px;
+    background: #00b894;
+    border: 5px solid white;
+    border-radius: 1ex
+}
+
+::-webkit-scrollbar-corner {
+    background: 0 0
+}
+
+:global input {
+	padding: 10px !important;
+	border-radius: 5px;
+	border: 2px solid #dfe6e9;
+	font-size: 1em;
 }

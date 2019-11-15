@@ -1,20 +1,20 @@
 .main {
 	display: flex;
 	width: 100vw;
-	height: 28px;
-	/* background: lightblue; */
-	background: #0abde3;
+	height: calc(28px + 16px);
+	background: #00b894;
 	color: white;
 	justify-content: space-between;
 	align-items: center;
 	-webkit-app-region: drag;
+	padding-bottom: 16px;
 }
 
 .title {
 	padding: 0 16px;
 	font-weight: 300;
 }
-
+ 
 .actions {
 	display: flex;
 	-webkit-app-region: none;
