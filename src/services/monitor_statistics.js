@@ -1,10 +1,11 @@
 const activeWin = global.require('active-win')
 const getCursorPos = global.require('cursor-pos')
 
-import {forEach, clone} from 'lodash'
+import { forEach, clone } from 'lodash'
 import Logger from '../utils/Logger'
 
 import dateFormat from 'dateformat'
+import { getTimeGapIndex } from '../utils'
 import { formatOfDate as format } from '../utils/constants'
 
 let logger = new Logger({
@@ -13,20 +14,20 @@ let logger = new Logger({
 	cur_win: false,
 	timers: false,
 	cursor_moved: false,
-	win_changed: false,
+	win_changed: false
 })
 
 let timerId = 0
 
 /**
  * Function that monitors statistics and writes it to tree
- * 
+ *
  * @param {object} tree Baobab tree
  */
 export default async function monitorWindowAndCursor(tree) {
 	// return 2
-	let win = {id: 0, app: '', path: '', title: ''}
-	let pos = {x: 0, y: 0}
+	let win = { id: 0, app: '', path: '', title: '' }
+	let pos = { x: 0, y: 0 }
 
 	let last_change = Date.now()
 
@@ -36,7 +37,7 @@ export default async function monitorWindowAndCursor(tree) {
 	// TODO: Refactor cognitive complexity?
 	// eslint-disable-next-line
 	timerId = setInterval(async () => {
-		let data = {...tree.select('statistics').get()}
+		let data = { ...tree.select('statistics').get() }
 		let timers = clone(tree.select(['timers', 'allTimers']).get())
 
 		let date = dateFormat(new Date(), format)
@@ -49,7 +50,12 @@ export default async function monitorWindowAndCursor(tree) {
 
 		if (win_changed || cursor_moved) {
 			last_change = Date.now()
-			win = {id: cur_win.id, app: cur_win.owner.name, path: cur_win.owner.path, title: cur_win.title}
+			win = {
+				id: cur_win.id,
+				app: cur_win.owner.name,
+				path: cur_win.owner.path,
+				title: cur_win.title
+			}
 			logger.log('cur_win', [win])
 			pos = cur_pos
 			isStopped = false
@@ -62,26 +68,29 @@ export default async function monitorWindowAndCursor(tree) {
 
 		if (Date.now() - last_change >= 5 * 60 * 1000) {
 			logger.log(Date.now() - last_change)
-			tree.select(['statistics', win.app, 'time', date])
+			tree
+				.select(['statistics', win.app, 'time', date])
 				.set(data[win.app].time[date] - (Date.now() - last_change))
 			isStopped = true
 
 			forEach(timers, (timer, name) => {
 				if (timer.status == 'active') return
-	
+
 				let triggered = isTimerTriggered(timer.appTriggers, win)
-	
+
 				if (!triggered) return
 
 				logger.log('timers', ['Stopping', timer, name])
-	
+
 				tree.select(['timers', 'allTimers', timer.id, 'status']).set('inactive')
-				tree.select(['timers', 'allTimers', timer.id, 'time', date])
+				tree
+					.select(['timers', 'allTimers', timer.id, 'time', date])
 					.set(timer.time[date] - (Date.now() - last_change))
-				tree.select(['timers', 'allTimers', timer.id, 'time_total'])
+				tree
+					.select(['timers', 'allTimers', timer.id, 'time_total'])
 					.set(timer.time_total - (Date.now() - last_change))
 				// timer.time -= (Date.now() - last_change)
-				
+
 				logger.log('timers', ['Stopped', timer, name])
 			})
 
@@ -90,11 +99,29 @@ export default async function monitorWindowAndCursor(tree) {
 
 		logger.log(cur_win, cur_pos, win, pos, Date.now() - last_change)
 		if (!data[win.app]) {
-			tree.select(['statistics']).set(win.app, {time: {[date]: timeout}, path: win.path})
+			tree.select(['statistics']).set(win.app, {
+				time: {
+					[date]: timeout
+				},
+				timeline: {
+					[date]: {
+						[getTimeGapIndex()]: timeout
+					}
+				},
+				path: win.path
+			})
 		} else if (!data[win.app].time[date]) {
 			tree.select(['statistics', win.app, 'time']).set(date, timeout)
+			tree
+				.select(['statistics', win.app, 'timeline'])
+				.set(date, { [getTimeGapIndex()]: timeout })
 		} else {
-			tree.select(['statistics', win.app, 'time', date]).set(data[win.app].time[date] + timeout)
+			tree
+				.select(['statistics', win.app, 'time', date])
+				.set(data[win.app].time[date] + timeout)
+			tree
+				.select(['statistics', win.app, 'timeline', date, getTimeGapIndex()])
+				.set(data[win.app].timeline[date][getTimeGapIndex()] + timeout)
 		}
 
 		forEach(timers, (timer, name) => {
@@ -121,7 +148,7 @@ export default async function monitorWindowAndCursor(tree) {
 
 /**
  * Test, does this window trigger timer
- * 
+ *
  * @param {Array} triggers appTriggers from timers
  * @param {object} win window to test
  */
@@ -130,7 +157,11 @@ function isTimerTriggered(triggers, win) {
 	forEach(triggers, trigger => {
 		if (trigger.path == win.path) {
 			if (trigger.regex && !win.title.match(new RegExp(trigger.regex))) {
-				logger.log('timers', ['Regex continue', new RegExp(trigger.regex), trigger.regex])
+				logger.log('timers', [
+					'Regex continue',
+					new RegExp(trigger.regex),
+					trigger.regex
+				])
 				return
 			}
 			logger.log('timers', ['Regex pass'])

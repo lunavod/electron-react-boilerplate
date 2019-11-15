@@ -7,21 +7,17 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
+    "plugin:css-modules/recommended",
     "plugin:lodash/recommended",
-	"plugin:sonarjs/recommended",
-	"plugin:jsdoc/recommended",
-	"plugin:css-modules/recommended"
+    "plugin:sonarjs/recommended",
+    "plugin:import/warnings",
+    "plugin:promise/recommended",
+    "plugin:jsdoc/recommended"
   ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true,
-      "modules": true
+      "modules": true,
+      "jsx": true
     },
     "modules": true,
     "experimentalObjectRestSpread": true,
@@ -29,19 +25,22 @@
     "sourceType": "module"
   },
   "plugins": [
+    "babel",
     "react",
-    "class-property",
+    "css-modules",
     "lodash",
     "sonarjs",
-    "no-use-extend-native",
-	"promise",
-	"jsdoc",
-	"css-modules"
+    "promise",
+    "jsdoc",
+    "no-use-extend-native"
   ],
   "rules": {
     "indent": [
       "error",
-      "tab"
+      "tab",
+      {
+        "SwitchCase": 1
+      }
     ],
     "quotes": [
       "error",
@@ -51,28 +50,18 @@
       "error",
       "never"
     ],
+    "no-console": "error",
+    "max-len": [
+      2,
+      120
+    ],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
-    "no-warning-comments": "warn",
-    "promise/always-return": "error",
-    "promise/no-return-wrap": "error",
-    "promise/param-names": "error",
-    "promise/catch-or-return": "error",
-    "promise/no-native": "off",
-    "promise/no-nesting": "warn",
-    "promise/no-promise-in-callback": "warn",
-    "promise/no-callback-in-promise": "warn",
-    "promise/avoid-new": "warn",
-    "promise/no-new-statics": "error",
-    "promise/no-return-in-finally": "warn",
-    "promise/valid-params": "warn",
     "lodash/import-scope": [
       2,
       "member"
-	],
-	"no-console": "error",
-	"jsdoc/require-returns": "off",
-	"max-len": [2, 120]
+    ],
+    "jsdoc/require-returns": "off"
   },
   "parser": "babel-eslint",
   "settings": {
@@ -85,16 +74,7 @@
     },
     "react": {
       "version": "16"
-	},
-	"import/resolver": {
-		"alias": {
-		  "map": [
-			["Utils", "./src/utils"]
-		  ]
-		}
-	  }
+    }
   },
-  "globals": {
-	  "isDev": true
-  }
+  "globals": {}
 }

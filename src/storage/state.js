@@ -1,9 +1,9 @@
 import Baobab from 'baobab'
 const monkey = Baobab.monkey
 
-import {forEach, keys, noop, uniq, split} from 'lodash'
+import { forEach, keys, noop, uniq, split } from 'lodash'
 import dateFormat from 'dateformat'
-import {formatOfDate as format} from '../utils/constants'
+import { formatOfDate as format } from '../utils/constants'
 
 import registerStored from '../utils/BaobabStored'
 
@@ -12,7 +12,7 @@ import migrations from './migrations'
 
 const initialData = {
 	timers: {
-		order: ['0','1'],
+		order: ['0', '1'],
 		allTimers: {
 			'0': {
 				name: 'Working',
@@ -24,11 +24,13 @@ const initialData = {
 				status: 'inactive',
 				appTriggers: [
 					{
-						path: 'C:\\Users\\yegor\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
+						path:
+							'C:\\Users\\yegor\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe',
 						regex: '.+'
 					},
 					{
-						path: 'C:\\Users\\yegor\\Documents\\timer\\node_modules\\electron\\dist\\electron.exe'
+						path:
+							'C:\\Users\\yegor\\Documents\\timer\\node_modules\\electron\\dist\\electron.exe'
 					}
 				]
 			},
@@ -36,8 +38,7 @@ const initialData = {
 			'1': {
 				name: 'Just test',
 				id: 2,
-				time: {
-				},
+				time: {},
 				time_total: 0,
 				status: 'inactive',
 				appTriggers: []
@@ -45,15 +46,14 @@ const initialData = {
 		}
 	},
 
-	statistics: {
-		
-	},
+	statistics: {},
 	statistics_day: null,
 	statistics_days: monkey({
 		cursors: {
 			statistics: ['statistics'],
 			blackList: ['blackList']
-		}, get: function({statistics, blackList}) {
+		},
+		get: function({ statistics, blackList }) {
 			let days = []
 			forEach(keys(statistics), key => {
 				let obj = statistics[key]
@@ -63,7 +63,9 @@ const initialData = {
 					try {
 						regex = new RegExp(regex)
 						if (obj.path.match(regex)) ignore = true
-					} catch(e) {noop()}
+					} catch (e) {
+						noop()
+					}
 					// console.log(regex, obj.path)
 				})
 				if (ignore) return
@@ -71,11 +73,13 @@ const initialData = {
 					let d = new Date()
 					let a = split(str, '.')
 					d.setDate(a[0])
-					d.setMonth(parseInt(a[1]-1))
+					d.setMonth(parseInt(a[1] - 1))
 					d.setFullYear(a[2])
 					return d
 				}
-				days = uniq([...days, ...keys(obj.time)]).sort((a,b)=>(parseDate(a)-parseDate(b)))
+				days = uniq([...days, ...keys(obj.time)]).sort(
+					(a, b) => parseDate(a) - parseDate(b)
+				)
 			})
 			return days
 		}
@@ -83,9 +87,8 @@ const initialData = {
 	blackList: ['C:\\\\Windows\\\\SystemApps'],
 	popupQueue: {
 		lastId: 0,
-		popups: [
-		]
-	},
+		popups: []
+	}
 }
 
 const tree = new Baobab(initialData)
@@ -102,21 +105,21 @@ const stored = [
 	{
 		path: ['blackList'],
 		name: 'blackList'
-	},
+	}
 ]
 
 registerStored(stored, tree)
 setUpMigrations(tree, migrations)
 
-window.resetStoredItem = (type) => {
+window.resetStoredItem = type => {
 	localStorage.removeItem(`__stored_${type}`)
 	location.reload()
 }
 
-import {addPopup} from '../actions/popups'
+import { addPopup } from '../actions/popups'
 
 window.addPopup = () => {
-	addPopup(tree, {type: 'message', title: 'Pushed!', message: 'Hiiii!'})
+	addPopup(tree, { type: 'message', title: 'Pushed!', message: 'Hiiii!' })
 }
 
 if (window.registerBaobabStore) {
@@ -126,7 +129,6 @@ if (window.registerBaobabStore) {
 		window.registerBaobabStore(tree, 'Store')
 	})
 }
-
 
 window.tree = tree
 
