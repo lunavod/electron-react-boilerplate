@@ -24,7 +24,7 @@ export default function sendToClock(tree) {
 			console.log('TIMER TIIIICK', formatTime(timer.time[date], 'MS'), timer.id)
 		})
 
-		fetch('http://192.168.1.40/clock', { method: 'POST', body: 'val=' + (d.getHours() + '').padStart(2, '0') + (d.getMinutes() + '').padStart(2, '0'), mode: 'no-cors' })
+		fetch('http://192.168.1.40/clock', { method: 'POST', body: 'val=' + ((new Date()).getHours() + '').padStart(2, '0') + ((new Date()).getMinutes() + '').padStart(2, '0'), mode: 'no-cors' })
 
 		if (!newTmr) {
 			if (!isStill) {
