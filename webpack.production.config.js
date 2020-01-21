@@ -27,7 +27,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
  */
 
 module.exports = {
-	mode: 'production',
+	mode: 'development',
 	entry: {
 		rhmr: 'react-hot-loader/patch',
 		index: './src/index.js'
@@ -45,58 +45,61 @@ module.exports = {
 			inject: true
 		}),
 		new webpack.ProvidePlugin({
-			'React': 'react',
+			React: 'react'
 		}),
 		new MiniCssExtractPlugin({
 			filename: '[name].css',
 			chunkFilename: '[id].css',
-			ignoreOrder: false,
+			ignoreOrder: false
 		}),
 		new webpack.DefinePlugin({
-			'isDev': false
+			isDev: false
 		})
 	],
 
 	target: 'electron-renderer',
 
 	module: {
-		rules: [{
-			test: /.(js|jsx)$/,
-			include: [path.resolve(__dirname, 'src')],
-			loader: 'babel-loader',
+		rules: [
+			{
+				test: /.(js|jsx)$/,
+				include: [path.resolve(__dirname, 'src')],
+				loader: 'babel-loader',
 
-			options: {
-				plugins: ['syntax-dynamic-import', 'react-hot-loader/babel', '@babel/plugin-proposal-class-properties'],
+				options: {
+					plugins: [
+						'syntax-dynamic-import',
+						'react-hot-loader/babel',
+						'@babel/plugin-proposal-class-properties'
+					],
 
-				presets: [
-					'@babel/react',
-				]
-			}
-		},
-		{
-			test: /\.css$/,
-			loaders: [
-				{
-					loader: MiniCssExtractPlugin.loader,
-					options: {
-						hmr: false,
-					},
-				},
-				// 'style-loader',
-				{
-					loader: 'css-loader',
-					options: {
-						modules: {
-							localIdentName: '[hash:base64:5]',
-						},
-					}
+					presets: ['@babel/react']
 				}
-			]
-		},
-		{
-			test: /\.node$/,
-			use: 'node-loader'
-		},
+			},
+			{
+				test: /\.css$/,
+				loaders: [
+					{
+						loader: MiniCssExtractPlugin.loader,
+						options: {
+							hmr: false
+						}
+					},
+					// 'style-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							modules: {
+								localIdentName: '[hash:base64:5]'
+							}
+						}
+					}
+				]
+			},
+			{
+				test: /\.node$/,
+				use: 'node-loader'
+			}
 		]
 	},
 
@@ -128,6 +131,5 @@ module.exports = {
 
 	context: path.resolve(__dirname),
 
-	externals: {
-	}
+	externals: {}
 }

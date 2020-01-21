@@ -6,39 +6,47 @@ import AppFrame from './components/AppFrame/index.jsx'
 import BlackList from './components/BlackList/index.jsx'
 import PopupQueue from './components/PopupQueue/index.jsx'
 
-import {useRoot} from 'baobab-react/hooks'
-import {hot} from 'react-hot-loader/root'
+import { useRoot } from 'baobab-react/hooks'
+import { hot } from 'react-hot-loader/root'
 
 import './global.css'
 
 import tree from './storage/state'
 import monitorStatistics from './services/monitor_statistics'
 import tickTimers from './services/tick_timers'
+import sendToClock from './services/send_to_clock'
 
-const {ipcRenderer} = global.require('electron')
-import {addPopup} from './actions/popups'
+const { ipcRenderer } = global.require('electron')
+import { addPopup } from './actions/popups'
 
 import './utils/fa-library'
 
-;(async () => {
-	let timer = await monitorStatistics(tree)
-	if (module.hot) {
-		module.hot.addDisposeHandler(()=>clearInterval(timer))
-	}
-})()
+	; (async () => {
+		let timer = await monitorStatistics(tree)
+		if (module.hot) {
+			module.hot.addDisposeHandler(() => clearInterval(timer))
+		}
+	})()
 
-;(async () => {
-	let timer = await tickTimers(tree)
-	if (module.hot) {
-		module.hot.addDisposeHandler(()=>clearInterval(timer))
-	}
-})()
+	; (async () => {
+		let timer = await tickTimers(tree)
+		if (module.hot) {
+			module.hot.addDisposeHandler(() => clearInterval(timer))
+		}
+	})()
+
+	; (async () => {
+		let timer = await sendToClock(tree)
+		if (module.hot) {
+			module.hot.addDisposeHandler(() => clearInterval(timer))
+		}
+	})()
 
 ipcRenderer.once('update-available', () => {
-	addPopup(tree, {type: 'updater'})
+	addPopup(tree, { type: 'updater' })
 })
 
-let App = function() {
+let App = function () {
 	const Root = useRoot(tree)
 
 	ipcRenderer.send('ready-for-updates')
@@ -59,6 +67,6 @@ ReactDOM.render(<App />,
 	document.getElementById('app-entry')
 )
 
-if(module.hot) {
-	module.hot.accept('./storage/state.js', ()=>location.reload())
+if (module.hot) {
+	module.hot.accept('./storage/state.js', () => location.reload())
 }
