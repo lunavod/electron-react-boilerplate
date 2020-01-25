@@ -1,5 +1,6 @@
+const ioHook = global.require('iohook')
+
 const activeWin = global.require('active-win')
-const getCursorPos = global.require('cursor-pos')
 
 import { forEach, clone } from 'lodash'
 import Logger from '../utils/Logger'
@@ -34,6 +35,27 @@ export default async function monitorWindowAndCursor(tree) {
 	let timeout = 1000
 	let isStopped = false
 
+	let mouse_changed = false
+	let keyboard_clicked = false
+
+	ioHook.on('mousemove', event => {
+		mouse_changed = true
+	})
+
+	ioHook.on('mouseclick', event => {
+		mouse_changed = true
+	})
+
+	ioHook.on('mousewheel', event => {
+		mouse_changed = true
+	})
+
+	ioHook.on('keydown', event => {
+		keyboard_clicked = true
+	})
+
+	ioHook.start()
+
 	// TODO: Refactor cognitive complexity?
 	// eslint-disable-next-line
 	timerId = setInterval(async () => {
@@ -43,12 +65,10 @@ export default async function monitorWindowAndCursor(tree) {
 		let date = dateFormat(new Date(), format)
 
 		let cur_win = await activeWin()
-		let cur_pos = getCursorPos()
 
 		let win_changed = cur_win.id !== win.id
-		let cursor_moved = cur_pos.x !== pos.x && cur_pos.y !== pos.y
 
-		if (win_changed || cursor_moved) {
+		if (win_changed || mouse_changed || keyboard_clicked) {
 			last_change = Date.now()
 			win = {
 				id: cur_win.id,
@@ -57,16 +77,15 @@ export default async function monitorWindowAndCursor(tree) {
 				title: cur_win.title
 			}
 			logger.log('cur_win', [win])
-			pos = cur_pos
 			isStopped = false
 		}
 
-		if (cursor_moved) logger.log('cursor_moved', [pos])
+		// if (cursor_moved) logger.log('cursor_moved', [pos])
 		if (win_changed) logger.log('win_changed', [cur_win])
 
 		if (isStopped) return
 
-		if (Date.now() - last_change >= 5 * 60 * 1000) {
+		if (Date.now() - last_change >= 5 * 1000) {
 			logger.log(Date.now() - last_change)
 			tree
 				.select(['statistics', win.app, 'time', date])
@@ -97,7 +116,7 @@ export default async function monitorWindowAndCursor(tree) {
 			return
 		}
 
-		logger.log(cur_win, cur_pos, win, pos, Date.now() - last_change)
+		// logger.log(cur_win, cur_pos, win, pos, Date.now() - last_change)
 		if (!data[win.app]) {
 			tree.select(['statistics']).set(win.app, {
 				time: {
@@ -141,6 +160,9 @@ export default async function monitorWindowAndCursor(tree) {
 			logger.log('timers', [timer, name])
 		})
 		logger.log('tree', [tree.get()])
+		if (mouse_changed) console.log('CURSOR MOVED!')
+		mouse_changed = false
+		keyboard_clicked = false
 	}, timeout)
 	logger.log('timer', ['Timer:', timerId])
 	return timerId
@@ -170,3 +192,8 @@ function isTimerTriggered(triggers, win) {
 	})
 	return triggered
 }
+
+// Register and start hook
+
+// Alternatively, pass true to start in DEBUG mode.
+// ioHook.start(true)

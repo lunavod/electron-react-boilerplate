@@ -20,52 +20,49 @@ const { ipcRenderer } = global.require('electron')
 import { addPopup } from './actions/popups'
 
 import './utils/fa-library'
-
-	; (async () => {
-		let timer = await monitorStatistics(tree)
-		if (module.hot) {
-			module.hot.addDisposeHandler(() => clearInterval(timer))
-		}
-	})()
-
-	; (async () => {
-		let timer = await tickTimers(tree)
-		if (module.hot) {
-			module.hot.addDisposeHandler(() => clearInterval(timer))
-		}
-	})()
-
-	; (async () => {
-		let timer = await sendToClock(tree)
-		if (module.hot) {
-			module.hot.addDisposeHandler(() => clearInterval(timer))
-		}
-	})()
+;(async () => {
+	let timer = await monitorStatistics(tree)
+	if (module.hot) {
+		module.hot.addDisposeHandler(() => clearInterval(timer))
+	}
+})()
+;(async () => {
+	let timer = await tickTimers(tree)
+	if (module.hot) {
+		module.hot.addDisposeHandler(() => clearInterval(timer))
+	}
+})()
+;(async () => {
+	let timer = await sendToClock(tree)
+	if (module.hot) {
+		module.hot.addDisposeHandler(() => clearInterval(timer))
+	}
+})()
 
 ipcRenderer.once('update-available', () => {
 	addPopup(tree, { type: 'updater' })
 })
 
-let App = function () {
+let App = function() {
 	const Root = useRoot(tree)
 
 	ipcRenderer.send('ready-for-updates')
 
-	return <Root >
-		<AppFrame />
-		<div className="main_container">
-			<Timers />
-			<Statistics />
-			<BlackList />
-			<PopupQueue />
-		</div>
-	</Root>
+	return (
+		<Root>
+			<AppFrame />
+			<div className="main_container">
+				<Timers />
+				<Statistics />
+				<BlackList />
+				<PopupQueue />
+			</div>
+		</Root>
+	)
 }
 
 App = hot(App)
-ReactDOM.render(<App />,
-	document.getElementById('app-entry')
-)
+ReactDOM.render(<App />, document.getElementById('app-entry'))
 
 if (module.hot) {
 	module.hot.accept('./storage/state.js', () => location.reload())
