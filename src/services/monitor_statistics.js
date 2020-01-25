@@ -85,7 +85,7 @@ export default async function monitorWindowAndCursor(tree) {
 
 		if (isStopped) return
 
-		if (Date.now() - last_change >= 5 * 1000) {
+		if (Date.now() - last_change >= 5 * 60 * 1000) {
 			logger.log(Date.now() - last_change)
 			tree
 				.select(['statistics', win.app, 'time', date])
